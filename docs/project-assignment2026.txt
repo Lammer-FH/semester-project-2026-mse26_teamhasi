@@ -1,0 +1,106 @@
+Project Assignment: Fullstack Web Application
+Project Overview
+In this project, you and your team will design and implement a fullstack web application
+using Spring Boot for the backend and Ionic with Vue.js (v3) for the frontend.
+You will apply the principles of Clean Architecture (as discussed in class), develop a
+mobile-first UI, and organize your work using GitHub Classroom and a Kanban board
+for backlog and task management.
+The goal is not only to develop working software but to show thoughtful design, good
+engineering practices, and clean implementation.
+
+Team Setup
+Form teams of 4 students
+One GitHub Classroom repository per team (created via invitation link)
+Use GitHub Projects (or similar) to maintain a Kanban board
+Every team member must contribute meaningfully and visibly to the code
+
+Project Scope
+Each team will:
+1. Design the database schema, REST API (resource-based, Richardson Model and a
+paper prototype for the mobile UI
+2. Implement the application in two stages (milestones)
+3. Perform peer reviews to improve quality and get external feedback
+4. document AI usage and workflows
+
+Advanced Web Frameworks 2026
+
+1
+
+Technology Stack
+Backend: Java with Spring Boot
+→ Follow Clean Architecture (as shown in the lectures etc.)
+Frontend: Ionic with Vue 3
+→ Use modular design (e.g. Atomic Design or similar)
+→ Maintain state with Pinia
+→ Use Axios Library or JS fetch API for Ajax Calls
+Tooling:
+GitHub Classroom
+GitHub Projects (Kanban)
+Figma (optional) for digital prototypes
+Markdown for documentation
+
+Advanced Web Frameworks 2026
+
+2
+
+Project Milestones
+Milestone 1 – Planning & Specification
+Deliverables:
+REST API specification (resource-oriented, Richardson Maturity Model)
+Database model (ER diagram or similar)
+Backlog (Kanban board with user stories as cards) or similar project management
+Peer review of another group’s Milestone 1
+
+Milestone 2 – Partial Implementation
+Deliverables:
+Fullstack implementation of user stories 1–3
+Must include working backend and frontend
+Frontend should follow modular design and clean architecture
+Use state management where applicable (e.g. for selected items, modals, forms)
+Updated REST API docs and DB model if needed
+Updated Kanban board (reflect progress)
+Peer review of another group’s Milestone 2
+
+Final Delivery – Completion & Quality
+Deliverables:
+Full implementation of user stories 4–5
+UI/UX quality and usability
+Clean code, good practices, proper error handling, validations
+Short README with project summary and how to run it
+Presentation of your App in class
+
+Advanced Web Frameworks 2026
+
+3
+
+Submission
+All deliverables must be submitted via your GitHub Classroom repository.
+Make sure to use issues and pull requests to organize your collaboration.
+The Kanban board must reflect real progress, planning, and review steps.
+
+AI Usage Policy
+You are encouraged to use AI tools as part of your development workflow.
+However, the following rules apply:
+Every meaningful use of AI must be documented in a dedicated AI_USAGE.md file
+in your repository
+Document: which tool, what prompt or task, what was accepted/modified/rejected,
+and why
+You must be able to explain and defend every part of your code in a peer review in
+class and final presentation
+Undocumented AI use that becomes apparent during review counts as academic
+dishonesty
+
+Pro Tips
+Think about how to arrange the work in your team first
+Start small and iterate! Avoid overly complex ideas.
+Keep your code clean and modular – follow the patterns from class.
+Commit often and meaningfully.
+Help your peers – your reviews matter.
+Build something you'd enjoy using.
+Happy Coding!
+
+Advanced Web Frameworks 2026
+
+4
+
+

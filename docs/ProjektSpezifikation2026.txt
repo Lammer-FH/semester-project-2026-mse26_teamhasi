@@ -1,0 +1,265 @@
+Project: Hotel Booking Interface
+
+Inhalt
+Project: Hotel Booking Interface
+Context and Background
+Technical Requirements
+Best Practices
+User Stories
+U1: Hotel Website
+U2: Hotel Room Selection
+U3: Check Availability
+U4: Book a Hotel Room
+U5: Improve Booking Confirmation
+
+Advanced Web Frameworks 2026
+
+1
+
+Context and Background
+Dear Team,
+I am excited to share that our small software company has been commissioned to
+develop a booking app for the Boutique Hotel Technikum. This app will be available on
+both smartphones and desktops and will be able to handle up to 100 visitors per day. Our
+goal is to create a modern and sustainable app that can be extended with additional
+features in the years to come.
+The booking app will provide guests of the Boutique Hotel Technikum with a user-friendly
+way to book hotel rooms for a specific period. Guests will also be able to register in order
+to conveniently view their bookings and personal details. The project will be carried out in
+teams of three, with each team responsible for both the backend and the frontend.
+We know this project presents a challenge — but we are confident that with our
+dedication and creativity, we will rise to meet it. We also recognize that we are not only
+building a great app, but gaining valuable experience and skills as developers.
+I look forward to working with you and to sharing our skills and ideas to achieve the best
+possible result. We will support the project through feedback rounds and code reviews
+and will assist you whenever needed. Let us work together on this project and create a
+great booking app for the Boutique Hotel Technikum!
+Best regards,
+your project lead
+
+Advanced Web Frameworks 2026
+
+2
+
+Technical Requirements
+The booking app will be developed using Vue.js (Version 3) and implemented
+efficiently using the Ionic framework.
+The Axios library is used for API calls, and state management is handled using Pinia.
+The application is primarily developed for mobile devices but must also be usable on
+desktops.
+For the backend we will use Spring Boot (Version >= 3).
+A MySQL database is used as the data store.
+
+Best Practices
+The following engineering standards and best practices are mandatory throughout the
+project:
+Clean Code
+Clean Architecture as defined by R. Martin and discussed in class
+Richardson Maturity Model meet Level 2
+Atomic Design: the frontend must be structured accordingly
+Pinia must be used as discussed in class
+All further best practices discussed and introduced during the course are equally
+binding and must be applied consistently.
+
+Advanced Web Frameworks 2026
+
+3
+
+User Stories
+U1: Hotel Website
+As a guest I want to be presented with the hotel in the form of
+a website in order to learn more about it .
+
+Details
+In addition to the booking and management features, the Single Page Application also
+contains static pages that invite visitors to explore the hotel and provide them with the
+information they need to know what to expect before, during, and after a successful
+booking.
+
+Recommended Approach
+Define what information needs to be provided for the hotel presentation
+Prepare content, research and provide images
+Create a component for each page
+
+Advanced Web Frameworks 2026
+
+4
+
+Definition of Done
+HTML templates for the static pages have been created (at minimum: landing
+page, imprint, about)
+Texts and content have been prepared and integrated
+The individual pages can be accessed and displayed correctly in the browser
+The content is well arranged and readable on both a smartphone and a desktop
+device
+
+Advanced Web Frameworks 2026
+
+5
+
+U2: Hotel Room Selection
+As a guest I want to see an overview of hotel rooms and their
+details in order to choose a room that suits my preferences .
+
+Details
+An API endpoint is available to retrieve room information. Details can be found in the API
+documentation.
+Room images are located in the images/rooms folder of the repository. File names
+correspond to the respective room ID. The images may not all be the same size — please
+find a suitable solution for this.
+Meaningful icons should be provided for the extras so that the user can navigate easily. A
+maximum of 5 hotel rooms should be displayed on the first load.
+This means a solution is required for how to display an odd number of rooms attractively,
+and how to navigate to page 2 (and potentially pages 3 and 4 — a room extension is
+planned for the coming year).
+
+Recommended Approach
+Familiarize yourself with the API endpoint
+Analyze the response data
+Create a paper prototype for the display and pagination
+What interactions are required?
+Familiarize yourself with Bootstrap Icons
+If you use a different design system, explore the icons available there
+Select icons for the extras
+Use button groups for the pagination buttons
+
+Advanced Web Frameworks 2026
+
+6
+
+Definition of Done
+Hotel rooms can be displayed with image, title, description, and extras
+Five hotel rooms are shown on page one
+It is possible to navigate to further pages: pagination
+The extras are accompanied by icons that represent them
+The feature has been checked into its own branch and pushed to the Git repository
+The feature has been merged into master after a code review
+
+Advanced Web Frameworks 2026
+
+7
+
+U3: Check Availability
+As a guest I want to check whether a specific room is available
+for my desired travel period in order to determine whether I
+will be able to book the room .
+
+Details
+An API endpoint is available to retrieve room availability. Details can be found in the API
+documentation.
+The user should be able to define their booking period within the interface. You have full
+creative freedom in deciding how best to present this to the user.
+Think innovatively and outside the box.
+
+Recommended Approach
+Familiarize yourself with the API endpoint
+Analyze the response data
+Develop two to three variants for how the user could define the period, and how room
+availability could be displayed
+Think through the user flow and use case scenario — what error cases exist?
+Consider which new components need to be designed, or which existing ones need
+to be extended or modified, so that your GUI concept is also feasible from an
+implementation perspective
+Build the store and API integration first, then the GUI
+
+Advanced Web Frameworks 2026
+
+8
+
+Definition of Done
+The user can define the booking period using a date dialog
+The user receives clear feedback about availability within the selected period
+Possible error cases are handled and the user is informed accordingly
+The feature has been checked into its own branch and pushed to the Git repository
+The feature has been merged into master after a code review
+
+Advanced Web Frameworks 2026
+
+9
+
+U4: Book a Hotel Room
+As a guest I want to book a selected room for a selected period in
+order to have accommodation during my holiday .
+
+Details
+An API endpoint is available to create a booking for a room. Details can be found in the
+API documentation.
+Once the user has found an available room, they should be able to book it. The following
+data must be provided:
+First name
+Last name
+Valid email address
+Confirm email address
+Breakfast yes / no
+Before final submission, the user should have the opportunity to review their booking
+details (including the booking period and room selection) and make changes if necessary.
+After a successful booking, a confirmation must be shown to the user.
+
+Recommended Approach
+Familiarize yourself with the API endpoint
+Analyze the data to be transmitted
+Create a paper prototype including user flow and error handling
+Build the store and API integration first, then the GUI
+
+Advanced Web Frameworks 2026
+
+10
+
+Definition of Done
+The user can book a desired room for a desired period by providing complete and
+correct data, provided the room is available
+Possible error cases are handled and the user is informed accordingly
+The user can review their data before submitting
+The user receives a confirmation after a successful booking
+The feature has been checked into its own branch and pushed to the Git repository
+The feature has been merged into master after a code review
+
+Advanced Web Frameworks 2026
+
+11
+
+U5: Improve Booking Confirmation
+As a guest I want to be informed after the booking whether it
+was successful or failed in order to know whether I can complete
+my process or whether further steps are required .
+
+Details
+The booking confirmation introduced in U4 should be extended to provide the user with
+comprehensive information about all details and to make arrival and check-in easier.
+The following booking details should be displayed:
+The booking period
+The hotel room including image, title, extras, and description
+The user's submitted personal data
+Directions to the hotel and any additional relevant information (e.g. train connections)
+Contact options
+
+Recommended Approach
+Consider what other information might be necessary beyond what is described here
+Create a paper prototype of the output
+Can existing components be reused?
+Can Google Maps or a similar service be integrated for directions? Are there
+packages available, and what is required?
+
+Advanced Web Frameworks 2026
+
+12
+
+Important Comment
+This user story marks (when U1–U4 are also completed) the first milestone and therefore
+the first release. This brings us to V1.0.0.
+
+Definition of Done
+The confirmation is extended with the information described in the Details section
+The confirmation should be printable on A4 as far as possible (printing from the
+browser is sufficient, no PDF conversion required)
+There is a clear outcome regarding the directions feature: implementation based
+on research results
+The feature has been checked into its own branch and pushed to the Git repository
+The feature has been merged into master after a code review
+V1.0.0 has been released (tagging)
+
+Advanced Web Frameworks 2026
+
+13
+
+

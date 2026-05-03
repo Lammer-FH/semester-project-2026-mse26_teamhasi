@@ -1,0 +1,74 @@
+ID,User_Story,Type,Category,Requirement,Domain_Object,Label
+REQ-001,U1,Functional,Site Architecture,Hotel website with static pages,Hotel,frontend
+REQ-002,U1,Functional,Pages,Landing page creation,Hotel,frontend
+REQ-003,U1,Functional,Pages,Imprint page creation,Hotel,frontend
+REQ-004,U1,Functional,Pages,About page creation,Hotel,frontend
+REQ-005,U1,Functional,Content,Hotel presentation content and description,Hotel,frontend
+REQ-006,U1,Functional,Content,Hotel images and media,Hotel,frontend
+REQ-007,U1,Functional,Navigation,Main navigation menu accessible from all pages,Hotel,frontend
+REQ-008,U1,Non-Functional,UX,Content readable and well-arranged on mobile,Hotel,frontend
+REQ-009,U1,Non-Functional,UX,Content readable and well-arranged on desktop,Hotel,frontend
+REQ-010,U1,Non-Functional,Architecture,Atomic Design component structure,Hotel,frontend
+REQ-011,U2,Functional,Room Display,Room overview display,Room,frontend
+REQ-012,U2,Functional,Room Display,Room image display,Room,frontend
+REQ-013,U2,Functional,Room Display,Room title display,Room,frontend
+REQ-014,U2,Functional,Room Display,Room description display,Room,frontend
+REQ-015,U2,Functional,Room Display,Room extras/amenities display,Extra,frontend
+REQ-016,U2,Functional,Room Extras,Meaningful icons for extras,Extra,frontend
+REQ-017,U2,Functional,Pagination,Display maximum 5 rooms on first load,Room,frontend
+REQ-018,U2,Functional,Pagination,Support pagination to page 2 and beyond,Room,frontend
+REQ-019,U2,Functional,Pagination,Attractive layout for odd number of rooms,Room,frontend
+REQ-020,U2,Functional,Room Images,Flexible solution for variable-size images,Room,frontend
+REQ-021,U2,Non-Functional,API,API endpoint integration for room retrieval,Room,backend
+REQ-022,U2,Non-Functional,UX,Mobile-first responsive design,Room,frontend
+REQ-023,U2,Non-Functional,UX,Desktop usability,Room,frontend
+REQ-024,U3,Functional,Availability,Check room availability for date period,Availability,frontend
+REQ-025,U3,Functional,Availability,Date dialog for period selection,Availability,frontend
+REQ-026,U3,Functional,User Feedback,Clear availability feedback to user,Availability,frontend
+REQ-027,U3,Functional,Error Handling,Error case handling for availability checks,Availability,frontend
+REQ-028,U3,Functional,User Flow,Support innovative period definition UI,Availability,frontend
+REQ-029,U3,Non-Functional,API,API endpoint integration for availability,Availability,backend
+REQ-030,U3,Non-Functional,State Management,Pinia store for availability state,Availability,frontend
+REQ-031,U3,Non-Functional,UX,Mobile-first responsive design,Availability,frontend
+REQ-032,U3,Non-Functional,UX,Desktop usability,Availability,frontend
+REQ-033,U4,Functional,Booking,Create booking for room and period,Booking,backend
+REQ-034,U4,Functional,Booking,Book a room with complete guest data,Booking,backend
+REQ-035,U4,Functional,Form,First name input,User,frontend
+REQ-036,U4,Functional,Form,Last name input,User,frontend
+REQ-037,U4,Functional,Form,Email address input,User,frontend
+REQ-038,U4,Functional,Form,Email confirmation input,User,frontend
+REQ-039,U4,Functional,Form,Breakfast selection (yes/no),Booking,frontend
+REQ-040,U4,Functional,Form Validation,Valid email address validation,User,frontend
+REQ-041,U4,Functional,Form Validation,Email confirmation match validation,User,frontend
+REQ-042,U4,Functional,Booking Review,Review booking details before submission,Booking,frontend
+REQ-043,U4,Functional,Booking Review,Ability to edit details before final submit,Booking,frontend
+REQ-044,U4,Functional,Booking Confirmation,Display confirmation after successful booking,Booking,frontend
+REQ-045,U4,Functional,Error Handling,Handle and inform user of errors,Booking,frontend
+REQ-046,U4,Non-Functional,API,API endpoint integration for booking creation,Booking,backend
+REQ-047,U4,Non-Functional,State Management,Pinia store for booking state and form data,Booking,frontend
+REQ-048,U4,Non-Functional,UX,Mobile-first responsive design,Booking,frontend
+REQ-049,U4,Non-Functional,UX,Desktop usability,Booking,frontend
+REQ-050,U5,Functional,Confirmation,Extended booking confirmation display,Booking,frontend
+REQ-051,U5,Functional,Confirmation Details,Display booking period,Booking,frontend
+REQ-052,U5,Functional,Confirmation Details,Display room details (image title extras description),Room,frontend
+REQ-053,U5,Functional,Confirmation Details,Display guest personal data,User,frontend
+REQ-054,U5,Functional,Directions,Display directions to hotel,Hotel,frontend
+REQ-055,U5,Functional,Directions,Display additional travel info (train connections),Hotel,frontend
+REQ-056,U5,Functional,Contact,Display contact options,Hotel,frontend
+REQ-057,U5,Functional,Printing,Print-friendly A4 layout,Booking,frontend
+REQ-058,U5,Functional,Directions Feature,Research and decide on directions implementation,Hotel,planning
+REQ-059,U5,Non-Functional,API,Directions/maps service integration,Hotel,backend
+REQ-060,,Non-Functional,Technical,Vue.js 3 framework,System,frontend
+REQ-061,,Non-Functional,Technical,Ionic framework for UI,System,frontend
+REQ-062,,Non-Functional,Technical,Axios for API calls,System,frontend
+REQ-063,,Non-Functional,Technical,Pinia for state management,System,frontend
+REQ-064,,Non-Functional,Technical,Spring Boot 3+ for backend,System,backend
+REQ-065,,Non-Functional,Technical,MySQL database,System,backend
+REQ-066,,Non-Functional,Architecture,Clean Code principles,System,planning
+REQ-067,,Non-Functional,Architecture,Clean Architecture (R. Martin),System,planning
+REQ-068,,Non-Functional,Architecture,Richardson Maturity Model Level 2,System,backend
+REQ-069,,Non-Functional,Architecture,Atomic Design structure,System,frontend
+REQ-070,,Non-Functional,Performance,Handle 100 visitors per day,System,backend
+REQ-071,,Non-Functional,UX,Mobile-first design approach,System,frontend
+REQ-072,,Non-Functional,UX,Desktop usability required,System,frontend
+REQ-073,,Non-Functional,Extensibility,Room extension planned (year 2),Room,planning
