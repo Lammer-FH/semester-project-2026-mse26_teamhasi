@@ -9,7 +9,6 @@
 > Dieses Dokument bündelt die Wireframes für alle User Stories U1–U5 als Bildmappe.
 > Pro User Story wurde der Mobile-View in mehreren Teilen abgegriffen, weil der komplette Screen die Bildhöhe überschreitet.
 > Quell-Prompts und Design-System liegen in [`prototypes/`](./prototypes/).
-> Navigation-Flow und Atomic-Design-Hierarchie als Appendix unten.
 
 ---
 
