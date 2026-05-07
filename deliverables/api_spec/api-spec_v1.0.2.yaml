@@ -1,0 +1,623 @@
+openapi: 3.0.3
+info:
+  title: Hotel Booking API
+  version: 1.0.2
+  description: REST API for managing rooms, room types, users, orders, media, room extras, and their relationships.
+
+servers:
+  - url: /api/v1
+
+tags:
+  - name: Rooms
+  - name: Orders
+
+paths:
+  /rooms:
+    get:
+      tags: [Rooms]
+      summary: Retrieve all rooms
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of rooms to return per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 5
+        - name: offset
+          in: query
+          description: Number of rooms to skip before returning results
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        "200":
+          description: Paginated list of room types with media and extras
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - pagination
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Room"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+              example:
+                pagination:
+                  total_count: 42
+                  limit: 5
+                  offset: 0
+                  next_offset: 5
+                data:
+                  - id: 1
+                    name: "Deluxe Double"
+                    description: "Spacious room with city view and king-size bed."
+                    capacity: 2
+                    price_per_night: 129.99
+                    media:
+                      - id: 10
+                        path: "https://cdn.example.com/rooms/deluxe-1.jpg"
+                        title: "Room overview"
+                        description: "Bright main area with natural light."
+                        alt_text: "Deluxe double room with king-size bed"
+                        sort_helper: 1
+                    extras:
+                      - id: 1
+                        name: "Free WiFi"
+                        description: "High-speed internet throughout the room."
+                        icon_key: "wifi"
+
+  /rooms/{id}/available:
+    get:
+      tags: [Rooms]
+      summary: Check availability for a specific room
+      description: >
+        Returns the availability status of a room for a given date range.
+        If no date range is provided, returns the room's current availability status.
+      operationId: checkRoomAvailability
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - name: check_in
+          in: query
+          description: >
+            Start date of the requested period (inclusive).
+            Must be today or a future date. Format: YYYY-MM-DD.
+          required: false
+          schema:
+            type: string
+            format: date
+          example: "2026-06-01"
+        - name: check_out
+          in: query
+          description: >
+            End date of the requested period (exclusive).
+            Must be after check_in. Format: YYYY-MM-DD.
+          required: false
+          schema:
+            type: string
+            format: date
+          example: "2026-06-07"
+      responses:
+        "200":
+          $ref: "#/components/responses/RoomAvailabilityResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Create a new order
+      description: >
+        Creates a user and places a room booking in a single request.
+        Returns the full order details including room info, extras, media, and the created user.
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - room_id
+                - booking_start
+                - booking_end
+                - has_breakfast
+                - user
+              properties:
+                room_id:
+                  type: integer
+                  description: ID of the room to book
+                  example: 3
+                booking_start:
+                  type: string
+                  format: date
+                  description: Check-in date
+                  example: "2026-06-01"
+                booking_end:
+                  type: string
+                  format: date
+                  description: Check-out date
+                  example: "2026-06-07"
+                has_breakfast:
+                  type: boolean
+                  description: Whether the guest wants breakfast included
+                  example: true
+                user:
+                  $ref: "#/components/schemas/UserCreate"
+      responses:
+        "201":
+          description: Order successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDetail"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int32
+
+  responses:
+    RoomAvailabilityResponse:
+      description: Availability result for the requested room and date range
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RoomAvailability"
+          examples:
+            available:
+              summary: Room is fully available
+              value:
+                room_id: 42
+                available: true
+                check_in: "2026-06-01"
+                check_out: "2026-06-07"
+                unavailable_dates: []
+            partially_unavailable:
+              summary: Room has some booked dates
+              value:
+                room_id: 42
+                available: false
+                check_in: "2026-06-01"
+                check_out: "2026-06-07"
+                unavailable_dates: ["2026-06-03", "2026-06-04"]
+
+    BadRequest:
+      description: The request was malformed or contained invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "VALIDATION_ERROR"
+            message: "One or more fields failed validation"
+            details:
+              - field: "check_out"
+                issue: "must be after check_in"
+                rejected_value: "2026-05-01"
+            request_id: "req_01hw9z3k4bfxe7qm2n"
+
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "ROOM_NOT_FOUND"
+            message: "No room found with id '42'"
+            request_id: "req_01hw9z3k4bfxe7qm2n"
+
+    UnprocessableEntity:
+      description: The request was well-formed but contains semantic errors
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "ROOM_NOT_AVAILABLE"
+            message: "The requested room is not available for the selected dates"
+            request_id: "req_01hw9z3k4bfxe7qm2n"
+
+  schemas:
+
+    # ─── Pagination ───────────────────────────────────────────
+    Pagination:
+      type: object
+      required:
+        - total_count
+        - limit
+        - offset
+      properties:
+        total_count:
+          type: integer
+          description: Total number of items across all pages
+          example: 42
+        limit:
+          type: integer
+          description: Page size used for this response
+          example: 5
+        offset:
+          type: integer
+          description: Offset used for this response
+          example: 0
+        next_offset:
+          type: integer
+          nullable: true
+          description: Offset for the next request. Null when on the last page.
+          example: 5
+
+    # ─── Error ────────────────────────────────────────────────
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong
+          example: "One or more fields failed validation"
+        details:
+          type: array
+          description: Field-level validation errors, populated on 400 responses
+          items:
+            type: object
+            required:
+              - field
+              - issue
+            properties:
+              field:
+                type: string
+                example: "check_out"
+              issue:
+                type: string
+                example: "must be after check_in"
+              rejected_value:
+                type: string
+                nullable: true
+                example: "2026-05-01"
+        request_id:
+          type: string
+          description: Unique request identifier for server-side tracing
+          example: "req_01hw9z3k4bfxe7qm2n"
+
+    # ─── User ─────────────────────────────────────────────────
+    UserCreate:
+      description: User payload sent when creating an order
+      type: object
+      required:
+        - username
+        - first_name
+        - last_name
+        - email
+      properties:
+        username:
+          type: string
+          maxLength: 255
+          example: "johndoe"
+        first_name:
+          type: string
+          maxLength: 255
+          description: Vorname
+          example: "John"
+        last_name:
+          type: string
+          maxLength: 255
+          description: Nachname
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: "john.doe@example.com"
+
+    UserSummary:
+      description: Compact user object returned inside order responses
+      type: object
+      required:
+        - id
+        - username
+        - first_name
+        - last_name
+        - email
+      properties:
+        id:
+          type: integer
+          example: 55
+        username:
+          type: string
+          maxLength: 255
+          example: "johndoe"
+        first_name:
+          type: string
+          maxLength: 255
+          description: Vorname
+          example: "John"
+        last_name:
+          type: string
+          maxLength: 255
+          description: Nachname
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: "john.doe@example.com"
+
+    # ─── Media ────────────────────────────────────────────────
+    Media:
+      description: Image asset linked to a room type via room_type_has_media
+      type: object
+      required:
+        - id
+        - path
+        - title
+        - alt_text
+        - sort_helper
+      properties:
+        id:
+          type: integer
+          example: 10
+        path:
+          type: string
+          format: uri
+          maxLength: 500
+          description: Fully qualified URL to the image asset
+          example: "https://cdn.example.com/rooms/deluxe-1.jpg"
+        title:
+          type: string
+          maxLength: 500
+          description: Display title of the image
+          example: "Room overview"
+        description:
+          type: string
+          maxLength: 500
+          nullable: true
+          description: Optional longer description of the image content
+          example: "Bright and spacious main area with natural light."
+        alt_text:
+          type: string
+          maxLength: 500
+          description: Accessibility alt text for the image
+          example: "Deluxe double room with king-size bed and city view"
+        sort_helper:
+          type: integer
+          description: Ascending sort order; lowest value = cover image
+          example: 1
+
+    RoomExtra:
+      description: Amenity or feature linked to a room via room_extra_has_room
+      type: object
+      required:
+        - id
+        - name
+        - icon_key
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          maxLength: 255
+          description: Display name of the extra
+          example: "Free WiFi"
+        description:
+          type: string
+          maxLength: 255
+          nullable: true
+          description: Short description of the extra
+          example: "High-speed internet available throughout the room."
+        icon_key:
+          type: string
+          maxLength: 255
+          description: Key used to resolve the icon on the frontend
+          example: "wifi"
+
+    Room:
+      description: >
+        A room type with media and extras. Used in the paginated GET /rooms list.
+        Maps to the room_type table.
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - capacity
+        - price_per_night
+        - media
+        - extras
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          maxLength: 255
+          example: "Deluxe Double"
+        description:
+          type: string
+          maxLength: 500
+          example: "Spacious room with a stunning city view and king-size bed."
+        capacity:
+          type: integer
+          example: 2
+        price_per_night:
+          type: number
+          format: float
+          description: Price per night in EUR
+          example: 129.99
+        media:
+          type: array
+          description: Images ordered by sort_helper ascending. First item is the cover image.
+          items:
+            $ref: "#/components/schemas/Media"
+        extras:
+          type: array
+          description: Extras/amenities available for this room type
+          items:
+            $ref: "#/components/schemas/RoomExtra"
+
+    RoomAvailability:
+      type: object
+      required:
+        - room_id
+        - available
+      properties:
+        room_id:
+          type: integer
+          description: Identifier of the queried room
+          example: 42
+        available:
+          type: boolean
+          description: Whether the room is available for the full requested period
+          example: true
+        check_in:
+          type: string
+          format: date
+          nullable: true
+          description: The check-in date used for this query
+          example: "2026-06-01"
+        check_out:
+          type: string
+          format: date
+          nullable: true
+          description: The check-out date used for this query
+          example: "2026-06-07"
+        unavailable_dates:
+          type: array
+          description: Booked dates within the requested range. Empty when available is true.
+          items:
+            type: string
+            format: date
+          example: ["2026-06-03", "2026-06-04"]
+
+    RoomDetail:
+      description: Physical room instance with its type, media and extras. Used inside OrderDetail.
+      type: object
+      required:
+        - id
+        - floor
+        - room_number
+        - room_type
+        - extras
+      properties:
+        id:
+          type: integer
+          example: 3
+        floor:
+          type: integer
+          example: 2
+        room_number:
+          type: string
+          example: "204"
+        room_type:
+          $ref: "#/components/schemas/RoomTypeDetail"
+        extras:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoomExtra"
+
+    RoomTypeDetail:
+      description: Full room type info including media. Used inside RoomDetail.
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - capacity
+        - price_per_night
+        - media
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          maxLength: 255
+          example: "Deluxe Double"
+        description:
+          type: string
+          maxLength: 500
+          example: "Spacious room with city view"
+        capacity:
+          type: integer
+          example: 2
+        price_per_night:
+          type: number
+          format: float
+          example: 129.99
+        media:
+          type: array
+          description: Images sorted by sort_helper ascending
+          items:
+            $ref: "#/components/schemas/Media"
+
+    OrderDetail:
+      type: object
+      required:
+        - id
+        - status
+        - booking_start
+        - booking_end
+        - nights
+        - has_breakfast
+        - user
+        - room
+      properties:
+        id:
+          type: integer
+          description: Unique order identifier
+          example: 101
+        status:
+          type: string
+          description: Current status of the order
+          example: "confirmed"
+        booking_start:
+          type: string
+          format: date
+          description: Check-in date (Anreise)
+          example: "2026-06-01"
+        booking_end:
+          type: string
+          format: date
+          description: Check-out date (Abreise)
+          example: "2026-06-07"
+        nights:
+          type: integer
+          description: Number of nights (Nächte), computed from booking_start and booking_end
+          example: 6
+        has_breakfast:
+          type: boolean
+          description: Whether breakfast is included (Frühstück)
+          example: true
+        user:
+          $ref: "#/components/schemas/UserSummary"
+        room:
+          $ref: "#/components/schemas/RoomDetail"
