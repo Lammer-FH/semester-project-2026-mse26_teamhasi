@@ -46,21 +46,44 @@ This is a fullstack web application that allows guests to browse hotel rooms, ch
 
 ## Quick Start
 
-### 1. Clone the Repository
+### Option 1: Using Docker (Recommended)
+
+The easiest way to get the application and MySQL database running:
 
 ```bash
+# Clone the repository
+git clone https://github.com/Lammer-FH/semester-project-2026-mse26_teamhasi.git
+cd semester-project-2026-mse26_teamhasi/myApp
+
+# Build and start all services (web app + MySQL)
+docker-compose up -d
+
+# Verify services are running
+docker-compose ps
+```
+
+Access the application at `http://localhost:3000`
+
+For detailed Docker instructions, database commands, and troubleshooting, see [DOCKER_README.md](myApp/DOCKER_README.md).
+
+### Option 2: Local Development
+
+For development without Docker:
+
+```bash
+# Clone the repository
 git clone https://github.com/Lammer-FH/semester-project-2026-mse26_teamhasi.git
 cd semester-project-2026-mse26_teamhasi
 ```
 
-### 2. Install Dependencies
+#### Install Dependencies
 
 ```bash
 cd myApp
 npm install
 ```
 
-### 3. Start Development Server
+#### Start Development Server
 
 ```bash
 npm run dev

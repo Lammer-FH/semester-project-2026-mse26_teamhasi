@@ -1,0 +1,48 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+node_modules
+npm-debug.log
+npm-error.log
+yarn-error.log
+
+# Build outputs
+dist
+.dist
+build
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage
+.nyc_output
+cypress/screenshots
+cypress/videos
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.log
+tmp
+temp
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Documentation
+docs
+deliverables
+README.md
