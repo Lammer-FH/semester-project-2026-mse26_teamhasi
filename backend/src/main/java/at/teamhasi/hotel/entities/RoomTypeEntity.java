@@ -36,9 +36,6 @@ public class RoomTypeEntity {
     @Column(name = "price_per_night", nullable = false)
     private Float pricePerNight;
 
-    @OneToMany(mappedBy = "roomType")
-    private List<RoomEntity> rooms;
-
     @ManyToMany
     @JoinTable(
         name = "room_type_has_media",
