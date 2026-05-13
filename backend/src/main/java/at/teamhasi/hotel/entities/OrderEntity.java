@@ -1,7 +1,7 @@
 package at.teamhasi.hotel.entities;
 
+import at.teamhasi.hotel.enums.EOrderStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -29,9 +29,10 @@ public class OrderEntity {
     @Column(name = "booking_end", nullable = false)
     private LocalDateTime bookingEnd;
 
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 45)
-    private String status;
+    private EOrderStatus status;
 
     @NotNull
     @Column(name = "hasBreakfast", nullable = false)
