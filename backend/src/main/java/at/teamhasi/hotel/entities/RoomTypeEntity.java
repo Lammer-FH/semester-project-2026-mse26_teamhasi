@@ -19,7 +19,7 @@ public class RoomTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_type_id")
-    private Long id;
+    private Integer id;
 
     @NotBlank
     @Column(nullable = false, length = 255)

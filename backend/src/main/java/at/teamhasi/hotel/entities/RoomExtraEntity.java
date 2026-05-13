@@ -18,7 +18,7 @@ public class RoomExtraEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_extra_id")
-    private Long id;
+    private Integer id;
 
     @NotBlank
     @Column(nullable = false, length = 255)

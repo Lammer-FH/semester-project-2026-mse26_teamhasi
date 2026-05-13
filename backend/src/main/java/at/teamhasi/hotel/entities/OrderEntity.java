@@ -19,7 +19,7 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Column(name = "booking_start", nullable = false)
