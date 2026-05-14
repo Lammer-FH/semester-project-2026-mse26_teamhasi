@@ -18,14 +18,20 @@ public class RoomTypeDto {
     private List<MediaDto> media;
     private List<RoomExtraDto> extras;
 
-    public static RoomTypeDto fromEntity(RoomTypeEntity roomTypeEntity) {
+    public static RoomTypeDto fromEntity(RoomTypeEntity entity) {
+        List<MediaDto> media = entity.getMedia() == null ? List.of() :
+                entity.getMedia().stream().map(MediaDto::fromEntity).toList();
+
+        List<RoomExtraDto> extras = entity.getExtras() == null ? List.of() :
+                entity.getExtras().stream().map(RoomExtraDto::fromEntity).toList();
+
         return RoomTypeDto.builder()
-                .name(roomTypeEntity.getName())
-                .description(roomTypeEntity.getDescription())
-                .capacity(roomTypeEntity.getCapacity())
-                .pricePerNight(roomTypeEntity.getPricePerNight())
-                .media(roomTypeEntity.getMedia().stream().map(MediaDto::fromEntity).toList())
-                .extras(roomTypeEntity.getExtras().stream().map(RoomExtraDto::fromEntity).toList())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .capacity(entity.getCapacity())
+                .pricePerNight(entity.getPricePerNight())
+                .media(media)
+                .extras(extras)
                 .build();
     }
 }
