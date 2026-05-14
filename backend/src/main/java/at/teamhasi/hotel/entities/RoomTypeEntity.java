@@ -1,5 +1,6 @@
 package at.teamhasi.hotel.entities;
 
+import at.teamhasi.hotel.dto.RoomExtraDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,9 +39,9 @@ public class RoomTypeEntity {
 
     @ManyToMany
     @JoinTable(
-        name = "room_type_has_media",
-        joinColumns = @JoinColumn(name = "room_type_room_type_id"),
-        inverseJoinColumns = @JoinColumn(name = "media_media_id")
+            name = "room_type_has_media",
+            joinColumns = @JoinColumn(name = "room_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "media_id")
     )
     private List<MediaEntity> media;
 }
