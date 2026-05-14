@@ -16,7 +16,7 @@ public class RoomTypeDto {
     private Integer capacity;
     private Float pricePerNight;
     private List<MediaDto> media;
-    private List<RoomExtraDto> possibleExtras;
+    private List<RoomExtraDto> extras;
 
     public static RoomTypeDto fromEntity(RoomTypeEntity roomTypeEntity) {
         return RoomTypeDto.builder()
@@ -25,7 +25,7 @@ public class RoomTypeDto {
                 .capacity(roomTypeEntity.getCapacity())
                 .pricePerNight(roomTypeEntity.getPricePerNight())
                 .media(roomTypeEntity.getMedia().stream().map(MediaDto::fromEntity).toList())
-                .possibleExtras(roomTypeEntity.getPossibleExtras().stream().map(RoomExtraDto::fromEntity).toList())
+                .extras(roomTypeEntity.getExtras().stream().map(RoomExtraDto::fromEntity).toList())
                 .build();
     }
 }

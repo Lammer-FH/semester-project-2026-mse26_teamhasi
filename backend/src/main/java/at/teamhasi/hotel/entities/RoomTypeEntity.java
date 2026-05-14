@@ -50,5 +50,5 @@ public class RoomTypeEntity {
             joinColumns = @JoinColumn(name = "room_type_id"),
             inverseJoinColumns = @JoinColumn(name = "room_extra_id")
     )
-    private List<RoomExtraEntity> possibleExtras;
+    private List<RoomExtraEntity> extras;
 }

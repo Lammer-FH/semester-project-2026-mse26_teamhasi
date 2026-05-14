@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "room")
 @Getter
@@ -33,12 +31,4 @@ public class RoomEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_type_id", nullable = false)
     private RoomTypeEntity roomType;
-
-    @ManyToMany
-    @JoinTable(
-        name = "room_extra_has_room",
-        joinColumns = @JoinColumn(name = "room_room_id"),
-        inverseJoinColumns = @JoinColumn(name = "room_extra_room_extra_id")
-    )
-    private List<RoomExtraEntity> extras;
 }
