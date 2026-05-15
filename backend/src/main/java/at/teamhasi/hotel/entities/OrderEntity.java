@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "order")
@@ -23,11 +23,11 @@ public class OrderEntity {
 
     @NotNull
     @Column(name = "booking_start", nullable = false)
-    private LocalDateTime bookingStart;
+    private LocalDate bookingStart;
 
     @NotNull
     @Column(name = "booking_end", nullable = false)
-    private LocalDateTime bookingEnd;
+    private LocalDate bookingEnd;
 
     @NotNull
     @Enumerated(EnumType.STRING)
