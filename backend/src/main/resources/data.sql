@@ -153,3 +153,37 @@ INSERT IGNORE INTO room_has_extras (room_id, room_extra_id) VALUES
 -- Accessible Room (rooms 33-34): WiFi, Safe
 (33,1),(33,3),
 (34,1),(34,3);
+
+-- -------------------------------------------------------
+-- Users (5)
+-- -------------------------------------------------------
+INSERT IGNORE INTO `user` (user_id, username, first_name, last_name, email) VALUES
+(1, 'john_doe',     'John',  'Doe',     'john.doe@example.com'),
+(2, 'jane_smith',   'Jane',  'Smith',   'jane.smith@example.com'),
+(3, 'max_mueller',  'Max',   'Mueller', 'max.mueller@example.com'),
+(4, 'anna_winter',  'Anna',  'Winter',  'anna.winter@example.com'),
+(5, 'peter_paul',   'Peter', 'Paul',    'peter.paul@example.com');
+
+-- -------------------------------------------------------
+-- Orders
+-- -------------------------------------------------------
+INSERT IGNORE INTO `order` (order_id, booking_start, booking_end, status, hasBreakfast, user_id, room_id) VALUES
+-- Past / confirmed
+(1,  '2026-02-10', '2026-02-14', 'CONFIRMED',  true,  3, 25),
+(2,  '2026-03-15', '2026-03-20', 'CONFIRMED',  false, 2, 11),
+(3,  '2026-04-01', '2026-04-05', 'CONFIRMED',  true,  1,  3),
+(4,  '2026-04-20', '2026-04-25', 'CONFIRMED',  false, 4, 19),
+(5,  '2026-05-01', '2026-05-05', 'CANCELLED',  true,  3,  5),
+-- Active (overlaps today 2026-05-19)
+(6,  '2026-05-17', '2026-05-22', 'CONFIRMED',  true,  1,  7),
+(7,  '2026-05-15', '2026-05-21', 'CONFIRMED',  false, 5, 27),
+-- Future / confirmed
+(8,  '2026-06-01', '2026-06-07', 'CONFIRMED',  true,  2, 32),
+(9,  '2026-06-10', '2026-06-12', 'CONFIRMED',  false, 3, 14),
+(10, '2026-06-20', '2026-06-25', 'CONFIRMED',  false, 5, 29),
+(11, '2026-07-01', '2026-07-05', 'CONFIRMED',  true,  4, 22),
+-- Future / pending
+(12, '2026-06-15', '2026-06-18', 'PENDING',    true,  1,  9),
+(13, '2026-07-10', '2026-07-14', 'PENDING',    false, 2, 20),
+-- Future / cancelled
+(14, '2026-08-01', '2026-08-07', 'CANCELLED',  false, 4, 31);
