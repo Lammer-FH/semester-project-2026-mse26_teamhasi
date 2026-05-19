@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,16 +19,27 @@ public class RoomService {
     private final RoomTypeRepository roomTypeRepository;
 
     @Transactional(readOnly = true)
-    public RoomsResponseDto getRooms(int limit, int offset) {
+    public RoomsResponseDto getRooms(int limit, int offset, LocalDate startDate, LocalDate endDate) {
         int page = limit > 0 ? offset / limit : 0;
 
-        List<RoomTypeDto> data = roomTypeRepository
-                .findAllWithPagination(PageRequest.of(page, limit))
-                .stream()
-                .map(RoomTypeDto::fromEntity)
-                .toList();
+        List<RoomTypeDto> data;
+        long total;
 
-        long total = roomTypeRepository.count();
+        if (startDate != null && endDate != null) {
+            data = roomTypeRepository
+                    .findAvailableWithPagination(startDate, endDate, PageRequest.of(page, limit))
+                    .stream()
+                    .map(RoomTypeDto::fromEntity)
+                    .toList();
+            total = roomTypeRepository.countAvailable(startDate, endDate);
+        } else {
+            data = roomTypeRepository
+                    .findAllWithPagination(PageRequest.of(page, limit))
+                    .stream()
+                    .map(RoomTypeDto::fromEntity)
+                    .toList();
+            total = roomTypeRepository.count();
+        }
         int nextOffset = offset + limit;
 
         PaginationDto pagination = PaginationDto.builder()

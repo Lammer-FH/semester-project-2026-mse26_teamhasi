@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/rooms")
 @RequiredArgsConstructor
@@ -20,7 +22,9 @@ public class RoomsController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoomsResponseDto> getAllRooms(
             @RequestParam(defaultValue = "20") int limit,
-            @RequestParam(defaultValue = "0") int offset) {
-        return ResponseEntity.ok(roomService.getRooms(limit, offset));
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestParam(required = false) LocalDate bookingStart,
+            @RequestParam(required = false) LocalDate bookingEnd) {
+        return ResponseEntity.ok(roomService.getRooms(limit, offset,  bookingStart, bookingEnd));
     }
 }
