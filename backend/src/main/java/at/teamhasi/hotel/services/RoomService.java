@@ -1,9 +1,9 @@
 package at.teamhasi.hotel.services;
 
 import at.teamhasi.hotel.dto.PaginationDto;
-import at.teamhasi.hotel.dto.RoomTypeDto;
+import at.teamhasi.hotel.dto.RoomDto;
 import at.teamhasi.hotel.dto.RoomsResponseDto;
-import at.teamhasi.hotel.repositories.RoomTypeRepository;
+import at.teamhasi.hotel.repositories.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -16,30 +16,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomService {
 
-    private final RoomTypeRepository roomTypeRepository;
+    private final RoomRepository roomRepository;
 
     @Transactional(readOnly = true)
     public RoomsResponseDto getRooms(int limit, int offset, LocalDate startDate, LocalDate endDate) {
         int page = limit > 0 ? offset / limit : 0;
 
-        List<RoomTypeDto> data;
+        List<RoomDto> data;
         long total;
 
         if (startDate != null && endDate != null) {
-            data = roomTypeRepository
+            data = roomRepository
                     .findAvailableWithPagination(startDate, endDate, PageRequest.of(page, limit))
                     .stream()
-                    .map(RoomTypeDto::fromEntity)
+                    .map(RoomDto::fromEntity)
                     .toList();
-            total = roomTypeRepository.countAvailable(startDate, endDate);
+            total = roomRepository.countAvailable(startDate, endDate);
         } else {
-            data = roomTypeRepository
+            data = roomRepository
                     .findAllWithPagination(PageRequest.of(page, limit))
                     .stream()
-                    .map(RoomTypeDto::fromEntity)
+                    .map(RoomDto::fromEntity)
                     .toList();
-            total = roomTypeRepository.count();
+            total = roomRepository.count();
         }
+
         int nextOffset = offset + limit;
 
         PaginationDto pagination = PaginationDto.builder()
