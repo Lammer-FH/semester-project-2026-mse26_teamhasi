@@ -43,12 +43,4 @@ public class RoomTypeEntity {
             inverseJoinColumns = @JoinColumn(name = "media_id")
     )
     private List<MediaEntity> media;
-
-    @ManyToMany
-    @JoinTable(
-            name = "room_type_has_extras",
-            joinColumns = @JoinColumn(name = "room_type_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_extra_id")
-    )
-    private List<RoomExtraEntity> extras;
 }

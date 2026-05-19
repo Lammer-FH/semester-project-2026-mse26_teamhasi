@@ -101,36 +101,55 @@ INSERT IGNORE INTO room_type_has_media (room_type_id, media_id) VALUES
 (15, 1);
 
 -- -------------------------------------------------------
--- Room Type <-> Extras
+-- Room <-> Extras
 -- -------------------------------------------------------
-INSERT IGNORE INTO room_type_has_extras (room_type_id, room_extra_id) VALUES
--- Standard Single: WiFi, Safe
+INSERT IGNORE INTO room_has_extras (room_id, room_extra_id) VALUES
+-- Standard Single (rooms 1-2): WiFi, Safe
 (1,1),(1,3),
--- Standard Double: WiFi, Mini Bar, Safe
-(2,1),(2,2),(2,3),
--- Standard Twin: WiFi, Mini Bar, Safe
+(2,1),(2,3),
+-- Standard Double (rooms 3-5): WiFi, Mini Bar, Safe
 (3,1),(3,2),(3,3),
--- Superior Single: WiFi, Mini Bar, Safe, City View
-(4,1),(4,2),(4,3),(4,8),
--- Superior Double: WiFi, Mini Bar, Safe, City View
-(5,1),(5,2),(5,3),(5,8),
--- Superior Twin: WiFi, Mini Bar, Safe, City View
-(6,1),(6,2),(6,3),(6,8),
--- Deluxe Single: WiFi, Mini Bar, Safe, Bathtub, Mountain View
-(7,1),(7,2),(7,3),(7,5),(7,7),
--- Deluxe Double: WiFi, Mini Bar, Safe, Bathtub, City View
-(8,1),(8,2),(8,3),(8,5),(8,8),
--- Deluxe Twin: WiFi, Mini Bar, Safe, Bathtub, Mountain View
-(9,1),(9,2),(9,3),(9,5),(9,7),
--- Junior Suite: WiFi, Mini Bar, Safe, Balcony, Bathtub, City View
-(10,1),(10,2),(10,3),(10,4),(10,5),(10,8),
--- Executive Suite: WiFi, Mini Bar, Safe, Balcony, Bathtub, City View
-(11,1),(11,2),(11,3),(11,4),(11,5),(11,8),
--- Family Room: WiFi, Mini Bar, Safe, City View
+(4,1),(4,2),(4,3),
+(5,1),(5,2),(5,3),
+-- Standard Twin (rooms 6-8): WiFi, Mini Bar, Safe
+(6,1),(6,2),(6,3),
+(7,1),(7,2),(7,3),
+(8,1),(8,2),(8,3),
+-- Superior Single (rooms 9-10): WiFi, Mini Bar, Safe, City View
+(9,1),(9,2),(9,3),(9,8),
+(10,1),(10,2),(10,3),(10,8),
+-- Superior Double (rooms 11-13): WiFi, Mini Bar, Safe, City View
+(11,1),(11,2),(11,3),(11,8),
 (12,1),(12,2),(12,3),(12,8),
--- Family Suite: WiFi, Mini Bar, Safe, Balcony, City View
-(13,1),(13,2),(13,3),(13,4),(13,8),
--- Penthouse Suite: WiFi, Mini Bar, Safe, Balcony, Bathtub, Sea View
-(14,1),(14,2),(14,3),(14,4),(14,5),(14,6),
--- Accessible Room: WiFi, Safe
-(15,1),(15,3);
+(13,1),(13,2),(13,3),(13,8),
+-- Superior Twin (rooms 14-16): WiFi, Mini Bar, Safe, City View
+(14,1),(14,2),(14,3),(14,8),
+(15,1),(15,2),(15,3),(15,8),
+(16,1),(16,2),(16,3),(16,8),
+-- Deluxe Single (rooms 17-18): WiFi, Mini Bar, Safe, Bathtub, Mountain View
+(17,1),(17,2),(17,3),(17,5),(17,7),
+(18,1),(18,2),(18,3),(18,5),(18,7),
+-- Deluxe Double (rooms 19-21): WiFi, Mini Bar, Safe, Bathtub, City View
+(19,1),(19,2),(19,3),(19,5),(19,8),
+(20,1),(20,2),(20,3),(20,5),(20,8),
+(21,1),(21,2),(21,3),(21,5),(21,8),
+-- Deluxe Twin (rooms 22-24): WiFi, Mini Bar, Safe, Bathtub, Mountain View
+(22,1),(22,2),(22,3),(22,5),(22,7),
+(23,1),(23,2),(23,3),(23,5),(23,7),
+(24,1),(24,2),(24,3),(24,5),(24,7),
+-- Junior Suite (rooms 25-26): WiFi, Mini Bar, Safe, Balcony, Bathtub, City View
+(25,1),(25,2),(25,3),(25,4),(25,5),(25,8),
+(26,1),(26,2),(26,3),(26,4),(26,5),(26,8),
+-- Executive Suite (rooms 27-28): WiFi, Mini Bar, Safe, Balcony, Bathtub, City View
+(27,1),(27,2),(27,3),(27,4),(27,5),(27,8),
+(28,1),(28,2),(28,3),(28,4),(28,5),(28,8),
+-- Family Room (rooms 29-30): WiFi, Mini Bar, Safe, City View
+(29,1),(29,2),(29,3),(29,8),
+(30,1),(30,2),(30,3),(30,8),
+-- Family Suite (room 31): WiFi, Mini Bar, Safe, Balcony, City View
+(31,1),(31,2),(31,3),(31,4),(31,8),
+-- Penthouse Suite (room 32): WiFi, Mini Bar, Safe, Balcony, Bathtub, Sea View
+(32,1),(32,2),(32,3),(32,4),(32,5),(32,6),
+-- Accessible Room (rooms 33-34): WiFi, Safe
+(33,1),(33,3),
+(34,1),(34,3);
