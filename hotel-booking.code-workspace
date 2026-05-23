@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "Root",
+      "path": "."
+    },
+    {
+      "name": "Backend (Spring Boot)",
+      "path": "backend"
+    },
+    {
+      "name": "Frontend (Ionic/Vue)",
+      "path": "frontend"
+    }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "automatic"
+  }
+}
