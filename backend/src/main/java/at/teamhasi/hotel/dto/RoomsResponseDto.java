@@ -11,5 +11,5 @@ import java.util.List;
 @Builder
 public class RoomsResponseDto {
     private PaginationDto pagination;
-    private List<RoomDto> data;
+    private List<RoomListDto> data;
 }

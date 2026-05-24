@@ -12,7 +12,7 @@
             <h1>Hotel Hasi</h1>
             <p>Your perfect stay in the heart of Vienna. Comfort, elegance, and warm hospitality await you.</p>
             <ion-button router-link="/rooms" class="cta">
-              Check Availability
+              View Our Rooms
             </ion-button>
           </div>
         </div>
@@ -23,7 +23,6 @@
         <div class="container">
           <h2>About the Hotel</h2>
           <div class="about-layout">
-            <img src="/images/about.jpg" alt="About Hotel Hasi" class="section-image" />
             <div class="about-text">
               <p>
                 Hotel Hasi is a boutique hotel nestled in the vibrant 20th district of Vienna.
@@ -40,16 +39,39 @@
       <section class="content-section alt-bg">
         <div class="container">
           <h2>Our Rooms</h2>
-          <div class="rooms-grid">
-            <div class="room-card">
-              <img src="/images/room1.jpg" alt="Superior Double Room" class="room-image" />
-              <p class="room-title">Superior Double Room</p>
-            </div>
-            <div class="room-card">
-              <img src="/images/room2.jpg" alt="Deluxe Suite" class="room-image" />
-              <p class="room-title">Deluxe Suite</p>
-            </div>
+
+          <div v-if="store.featuredLoading" class="rooms-loading">
+            <ion-spinner name="crescent" />
           </div>
+
+          <div v-else-if="store.featuredError" class="rooms-error">
+            <p>{{ store.featuredError }}</p>
+          </div>
+
+          <div v-else class="rooms-grid">
+            <router-link
+              v-for="room in featuredRooms"
+              :key="room.id"
+              :to="`/rooms?room=${room.id}`"
+              class="preview-card"
+            >
+              <div class="preview-image-wrap">
+                <img
+                  v-if="room.media.length"
+                  :src="room.media[0].path"
+                  :alt="room.media[0].alt_text"
+                  class="preview-image"
+                  loading="lazy"
+                />
+                <div v-else class="preview-image-placeholder" />
+              </div>
+              <div class="preview-info">
+                <p class="preview-name">{{ room.name }}</p>
+                <p class="preview-price">from €{{ room.price_per_night.toFixed(2) }}/night</p>
+              </div>
+            </router-link>
+          </div>
+
           <ion-button router-link="/rooms" fill="outline" class="rooms-link">
             View All Rooms
           </ion-button>
@@ -78,13 +100,34 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonButton } from '@ionic/vue';
+import { computed } from 'vue';
+import { IonPage, IonContent, IonButton, IonSpinner, onIonViewWillEnter } from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
+import { useRoomStore } from '@/stores/roomStore';
+
+const store = useRoomStore();
+
+// Pick the first 5 rooms with distinct cover images
+const featuredRooms = computed(() => {
+  const seen = new Set<string>();
+  const result = [];
+  for (const room of store.featured) {
+    const cover = room.media[0]?.path ?? `__none_${room.id}`;
+    if (!seen.has(cover)) {
+      seen.add(cover);
+      result.push(room);
+      if (result.length === 5) break;
+    }
+  }
+  return result;
+});
+
+// Only fetches on first visit — subsequent navigations use cached data
+onIonViewWillEnter(() => store.fetchFeatured());
 </script>
 
 <style>
-/* unscoped: overrides Ionic's ion-content background globally on this page */
 .home-page ion-content {
   --background: #ffffff;
   --color: #111111;
@@ -164,7 +207,7 @@ import SiteFooter from '@/components/organisms/SiteFooter.vue';
   color: #0d0d1a;
 }
 
-/* About layout: stacked on mobile, side-by-side on desktop */
+/* About */
 .about-layout {
   display: flex;
   flex-direction: column;
@@ -192,7 +235,14 @@ import SiteFooter from '@/components/organisms/SiteFooter.vue';
   font-weight: 600;
 }
 
-/* Room cards: 1 column mobile, 2 columns desktop */
+/* Rooms grid */
+.rooms-loading,
+.rooms-error {
+  text-align: center;
+  padding: 32px 0;
+  color: #666;
+}
+
 .rooms-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -200,24 +250,65 @@ import SiteFooter from '@/components/organisms/SiteFooter.vue';
   margin-bottom: 20px;
 }
 
-.room-card {
+/* Preview card link */
+.preview-card {
+  display: block;
+  text-decoration: none;
   background: white;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.room-image {
+.preview-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+  transform: translateY(-2px);
+}
+
+/* Fixed 16:9 image box — handles any image dimension */
+.preview-image-wrap {
   width: 100%;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
+  overflow: hidden;
+  background: #e8e8ee;
 }
 
-.room-title {
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.preview-card:hover .preview-image {
+  transform: scale(1.04);
+}
+
+.preview-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #dde0e8;
+}
+
+.preview-info {
+  padding: 10px 14px 12px;
+}
+
+.preview-name {
   font-weight: 600;
   color: #0d0d1a;
-  margin: 10px 14px 12px;
+  margin: 0 0 2px;
+  font-size: 0.95rem;
+}
+
+.preview-price {
+  font-size: 0.8rem;
+  color: #1a56db;
+  margin: 0;
+  font-weight: 500;
 }
 
 .rooms-link {
@@ -279,6 +370,13 @@ import SiteFooter from '@/components/organisms/SiteFooter.vue';
 
   .rooms-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  /* 5th card alone → centered in its own full-width row */
+  .rooms-grid > :nth-child(5):last-child {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    margin: 0 auto;
   }
 }
 </style>
