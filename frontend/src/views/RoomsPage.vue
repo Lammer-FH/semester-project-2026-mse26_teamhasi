@@ -19,10 +19,10 @@
             </div>
           </div>
           <div class="filter-actions">
-            <ion-button :disabled="!filterCheckIn || !filterCheckOut" @click="search">
+            <ion-button color="primary" :disabled="!filterCheckIn || !filterCheckOut" @click="search">
               Search
             </ion-button>
-            <ion-button v-if="isFiltered" fill="outline" color="medium" @click="clearFilter">
+            <ion-button v-if="isFiltered" fill="outline" color="primary" @click="clearFilter">
               Clear
             </ion-button>
           </div>
@@ -41,7 +41,7 @@
         <!-- Error -->
         <div v-else-if="store.error" class="state-box error">
           <p>{{ store.error }}</p>
-          <ion-button fill="outline" size="small" @click="load">Retry</ion-button>
+          <ion-button fill="outline" color="primary" size="small" @click="load">Retry</ion-button>
         </div>
 
         <!-- Room grid -->
@@ -64,14 +64,12 @@
             <span class="page-info">{{ pageLabel }}</span>
             <ion-buttons>
               <ion-button
-                fill="outline"
                 :disabled="currentOffset === 0"
                 @click="prev"
               >
                 Previous
               </ion-button>
               <ion-button
-                fill="outline"
                 :disabled="!store.pagination.next_offset"
                 @click="next"
               >
@@ -88,7 +86,9 @@
           <ion-toolbar>
             <ion-title>Check Availability</ion-title>
             <ion-buttons slot="end">
-              <ion-button @click="closeModal">Close</ion-button>
+              <ion-button color="primary" fill="clear" class="modal-close" @click="closeModal">
+                <BIconXCircleFill />
+              </ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
@@ -124,6 +124,7 @@
 
             <ion-button
               expand="block"
+              color="primary"
               :disabled="avStore.loading"
               @click="submitAvailability"
             >
@@ -308,10 +309,10 @@ onIonViewWillEnter(async () => {
 }
 
 .pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .page-info {
@@ -366,6 +367,11 @@ onIonViewWillEnter(async () => {
 }
 
 /* Modal */
+.modal-content {
+  --background: #ffffff;
+  --color: #111111;
+}
+
 .modal-body {
   padding: 24px 20px;
   display: flex;

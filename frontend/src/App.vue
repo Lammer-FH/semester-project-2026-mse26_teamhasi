@@ -23,7 +23,7 @@
         </ion-list>
       </ion-content>
     </ion-menu>
-    <ion-router-outlet id="main-content" />
+    <ion-router-outlet id="main-content" :animated="false" />
   </ion-app>
 </template>
 

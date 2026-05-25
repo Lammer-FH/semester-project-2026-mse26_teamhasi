@@ -61,32 +61,33 @@ import SiteFooter from '@/components/organisms/SiteFooter.vue';
 <style scoped>
 .content-section {
   padding: 28px 20px;
+  background-color: #ffffff;
 }
 
 .content-section h1 {
   font-size: 1.8rem;
   font-weight: 700;
   margin: 0 0 24px;
-  color: #1a1a2e;
+  color: #0d0d1a;
 }
 
 .content-section h2 {
   font-size: 1rem;
   font-weight: 700;
   margin: 20px 0 6px;
-  color: #1a1a2e;
+  color: #0d0d1a;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .content-section p {
-  color: #555;
+  color: #111111;
   line-height: 1.6;
   margin: 0;
 }
 
 .content-section a {
-  color: #0f3460;
+  color: #111111;
   text-decoration: none;
 }
 </style>

@@ -29,7 +29,7 @@
                     <BIconPeople class="capacity-icon" />
                     {{ room.capacity }} guest{{ room.capacity !== 1 ? 's' : '' }}
                 </span>
-                <ion-button size="small" @click="$emit('check-availability', room.id)">
+                <ion-button size="small" color="primary" @click="$emit('check-availability', room.id)">
                     Check Availability
                 </ion-button>
             </div>

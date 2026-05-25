@@ -179,10 +179,9 @@ onIonViewWillEnter(() => store.fetchFeatured());
 }
 
 .cta {
-  --background: #e2a84b;
-  --color: #1a1a2e;
-  --border-radius: 8px;
-  font-weight: 600;
+  --background: #e5e5e5;
+  --color: #111111;
+  --border-color: #111111;
 }
 
 /* Sections */
@@ -312,9 +311,8 @@ onIonViewWillEnter(() => store.fetchFeatured());
 }
 
 .rooms-link {
-  --border-color: #0d0d1a;
-  --color: #0d0d1a;
-  --border-radius: 8px;
+  --border-color: #111111;
+  --color: #111111;
 }
 
 /* Contact */
