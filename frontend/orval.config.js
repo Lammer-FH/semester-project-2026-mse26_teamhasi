@@ -1,7 +1,7 @@
 export default {
   api: {
     input: {
-        target: "./openapi.json"
+        target: "./api-docs.json"
     },
     output: {
       target: "./src/generated/api.ts",
