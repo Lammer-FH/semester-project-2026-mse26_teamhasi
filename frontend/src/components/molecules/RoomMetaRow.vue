@@ -1,18 +1,18 @@
 <template>
   <div class="room-meta-row" :class="{ 'room-meta-row--compact': compact }">
-    <h3 class="room-meta-row__name">{{ room.name }}</h3>
+    <h3 class="room-meta-row__name">{{ room.roomType?.name ?? '' }}</h3>
     <span class="room-meta-row__price">
-      {{ pricePrefix }}{{ room.price_per_night.toFixed(2) }}<small>{{ priceSuffix }}</small>
+      {{ pricePrefix }}{{ (room.roomType?.pricePerNight ?? 0).toFixed(2) }}<small>{{ priceSuffix }}</small>
     </span>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Room } from '@/api/roomApi';
+import type { RoomDto } from '@/generated/model';
 
 withDefaults(
   defineProps<{
-    room: Room;
+    room: RoomDto;
     pricePrefix?: string;
     priceSuffix?: string;
     compact?: boolean;

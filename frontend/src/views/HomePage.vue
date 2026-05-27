@@ -1,12 +1,12 @@
 <template>
   <ion-page class="home-page">
-    <site-header />
+    <site-header/>
 
     <ion-content :fullscreen="true">
 
       <!-- Hero -->
       <section class="hero">
-        <img src="/images/hero.jpg" alt="Hotel Hasi" class="hero-image" />
+        <img src="/images/hero.jpg" alt="Hotel Hasi" class="hero-image"/>
         <div class="hero-overlay">
           <div class="hero-body">
             <h1>Hotel Hasi</h1>
@@ -41,7 +41,7 @@
           <h2>Our Rooms</h2>
 
           <div v-if="store.featuredLoading" class="rooms-loading">
-            <ion-spinner name="crescent" />
+            <ion-spinner name="crescent"/>
           </div>
 
           <div v-else-if="store.featuredError" class="rooms-error">
@@ -50,14 +50,14 @@
 
           <div v-else class="rooms-grid">
             <router-link
-              v-for="room in featuredRooms"
-              :key="room.id"
-              :to="`/rooms?room=${room.id}`"
-              class="preview-card"
+                v-for="room in featuredRooms"
+                :key="room.id"
+                :to="`/rooms?room=${room.id}`"
+                class="preview-card"
             >
-              <room-media :room="room" hoverable />
+              <room-media :room="room" hoverable/>
               <div class="preview-info">
-                <room-meta-row :room="room" compact price-prefix="from €" />
+                <room-meta-row :room="room" compact price-prefix="from €"/>
               </div>
             </router-link>
           </div>
@@ -81,27 +81,27 @@
             <a href="mailto:kontakt@hotel-hasi.at" class="contact-value">kontakt@hotel-hasi.at</a>
           </div>
           <location-map
-            title="Hotel Hasi location on OpenStreetMap"
-            embed-src="https://www.openstreetmap.org/export/embed.html?bbox=16.371%2C48.236%2C16.381%2C48.243&layer=mapnik&marker=48.239378%2C16.376495"
-            link-href="https://www.openstreetmap.org/?mlat=48.239378&mlon=16.376495#map=19/48.239378/16.376495"
+              title="Hotel Hasi location on OpenStreetMap"
+              embed-src="https://www.openstreetmap.org/export/embed.html?bbox=16.371%2C48.236%2C16.381%2C48.243&layer=mapnik&marker=48.239378%2C16.376495"
+              link-href="https://www.openstreetmap.org/?mlat=48.239378&mlon=16.376495#map=19/48.239378/16.376495"
           />
         </div>
       </section>
 
-      <site-footer />
+      <site-footer/>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { IonPage, IonContent, IonButton, IonSpinner, onIonViewWillEnter } from '@ionic/vue';
+import {computed} from 'vue';
+import {IonButton, IonContent, IonPage, IonSpinner, onIonViewWillEnter} from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
 import LocationMap from '@/components/organisms/LocationMap.vue';
 import RoomMedia from '@/components/molecules/RoomMedia.vue';
 import RoomMetaRow from '@/components/molecules/RoomMetaRow.vue';
-import { useRoomStore } from '@/stores/roomStore';
+import {useRoomStore} from '@/stores/roomStore';
 
 const store = useRoomStore();
 
@@ -110,7 +110,7 @@ const featuredRooms = computed(() => {
   const seen = new Set<string>();
   const result = [];
   for (const room of store.featured) {
-    const cover = room.media[0]?.path ?? `__none_${room.id}`;
+    const cover = room.roomType?.media?.[0]?.path ?? `__none_${room.id}`;
     if (!seen.has(cover)) {
       seen.add(cover);
       result.push(room);

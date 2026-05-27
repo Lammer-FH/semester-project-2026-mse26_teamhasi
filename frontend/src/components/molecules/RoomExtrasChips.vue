@@ -1,7 +1,7 @@
 <template>
   <div v-if="extras.length" class="room-extras">
-    <span v-for="extra in extras" :key="`${extra.icon_key}-${extra.name}`" class="extra-chip" :title="extra.name">
-      <component :is="iconMap[extra.icon_key] ?? BIconStar" class="extra-icon" />
+    <span v-for="extra in extras" :key="`${extra.iconKey}-${extra.name}`" class="extra-chip" :title="extra.name">
+      <component :is="iconMap[extra.iconKey ?? ''] ?? BIconStar" class="extra-icon" />
       <span class="extra-label">{{ extra.name }}</span>
     </span>
   </div>
@@ -20,9 +20,9 @@ import {
   BIconBuildings,
   BIconStar,
 } from 'bootstrap-icons-vue';
-import type { RoomExtra } from '@/api/roomApi';
+import type { RoomExtraDto } from '@/generated/model';
 
-defineProps<{ extras: RoomExtra[] }>();
+defineProps<{ extras: RoomExtraDto[] }>();
 
 const iconMap: Record<string, Component> = {
   wifi: BIconWifi,
