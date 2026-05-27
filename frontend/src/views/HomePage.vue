@@ -55,19 +55,9 @@
               :to="`/rooms?room=${room.id}`"
               class="preview-card"
             >
-              <div class="preview-image-wrap">
-                <img
-                  v-if="room.media.length"
-                  :src="room.media[0].path"
-                  :alt="room.media[0].alt_text"
-                  class="preview-image"
-                  loading="lazy"
-                />
-                <div v-else class="preview-image-placeholder" />
-              </div>
+              <room-media :room="room" hoverable />
               <div class="preview-info">
-                <p class="preview-name">{{ room.name }}</p>
-                <p class="preview-price">from €{{ room.price_per_night.toFixed(2) }}/night</p>
+                <room-meta-row :room="room" compact price-prefix="from €" />
               </div>
             </router-link>
           </div>
@@ -104,6 +94,8 @@ import { computed } from 'vue';
 import { IonPage, IonContent, IonButton, IonSpinner, onIonViewWillEnter } from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
+import RoomMedia from '@/components/molecules/RoomMedia.vue';
+import RoomMetaRow from '@/components/molecules/RoomMetaRow.vue';
 import { useRoomStore } from '@/stores/roomStore';
 
 const store = useRoomStore();
@@ -265,49 +257,8 @@ onIonViewWillEnter(() => store.fetchFeatured());
   transform: translateY(-2px);
 }
 
-/* Fixed 16:9 image box — handles any image dimension */
-.preview-image-wrap {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: #e8e8ee;
-}
-
-.preview-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.preview-card:hover .preview-image {
-  transform: scale(1.04);
-}
-
-.preview-image-placeholder {
-  width: 100%;
-  height: 100%;
-  background: #dde0e8;
-}
-
 .preview-info {
   padding: 10px 14px 12px;
-}
-
-.preview-name {
-  font-weight: 600;
-  color: #0d0d1a;
-  margin: 0 0 2px;
-  font-size: 0.95rem;
-}
-
-.preview-price {
-  font-size: 0.8rem;
-  color: #1a56db;
-  margin: 0;
-  font-weight: 500;
 }
 
 .rooms-link {

@@ -57,3 +57,12 @@ Entries:
 - Acceptance: Accepted
 - Files Changed: None (GitHub repository operation)
 - Notes: GitHub issues #1-#4 created and labeled with "in-progress"; all issues now visible at https://github.com/Lammer-FH/semester-project-2026-mse26_teamhasi/issues with full body text from markdown files. Ready for team assignment and development work.
+
+- Date: 2026-05-27 19:06
+- Tool: GitHub Copilot (GPT-5.4 mini)
+- Prompt / Task: Review the frontend hotel application and suggest how to split it into more reusable components.
+- Purpose: Document AI-assisted review work in the project log.
+- Output Summary: Analyzed the main Vue pages and existing shared components, then prepared a component-splitting review with concrete reuse suggestions.
+- Acceptance: Accepted
+- Files Changed: [AI_USAGE_LOG.md](AI_USAGE_LOG.md)
+- Notes: This log entry records the review-only assistance for the frontend component structure.
