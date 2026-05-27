@@ -6,31 +6,15 @@
       <div class="container">
         <h1 class="page-title">Our Rooms</h1>
 
-        <!-- Date filter bar -->
-        <div class="filter-bar">
-          <div class="filter-fields">
-            <div class="filter-field">
-              <label>Check-in</label>
-              <ion-input type="date" :min="today" v-model="filterCheckIn" fill="outline" />
-            </div>
-            <div class="filter-field">
-              <label>Check-out</label>
-              <ion-input type="date" :min="filterCheckIn || today" v-model="filterCheckOut" fill="outline" />
-            </div>
-          </div>
-          <div class="filter-actions">
-            <ion-button color="primary" :disabled="!filterCheckIn || !filterCheckOut" @click="search">
-              Search
-            </ion-button>
-            <ion-button v-if="isFiltered" fill="outline" color="primary" @click="clearFilter">
-              Clear
-            </ion-button>
-          </div>
-          <p v-if="filterError" class="filter-error">{{ filterError }}</p>
-          <p v-if="isFiltered" class="filter-active">
-            Showing available rooms for {{ filterCheckIn }} → {{ filterCheckOut }}
-          </p>
-        </div>
+        <date-range-filter
+          :today="today"
+          v-model:check-in="filterCheckIn"
+          v-model:check-out="filterCheckOut"
+          :is-filtered="isFiltered"
+          :error="filterError"
+          @search="search"
+          @clear="clearFilter"
+        />
 
         <!-- Loading -->
         <div v-if="store.loading" class="state-box">
@@ -59,93 +43,30 @@
             />
           </div>
 
-          <!-- Pagination -->
-          <div v-if="store.pagination" class="pagination">
-            <span class="page-info">{{ pageLabel }}</span>
-            <ion-buttons>
-              <ion-button
-                :disabled="currentOffset === 0"
-                @click="prev"
-              >
-                Previous
-              </ion-button>
-              <ion-button
-                :disabled="!store.pagination.next_offset"
-                @click="next"
-              >
-                Next
-              </ion-button>
-            </ion-buttons>
-          </div>
+          <pagination-controls
+            :visible="!!store.pagination"
+            :page-label="pageLabel"
+            :prev-disabled="currentOffset === 0"
+            :next-disabled="!store.pagination?.next_offset"
+            @prev="prev"
+            @next="next"
+          />
         </template>
       </div>
 
-      <!-- Availability modal -->
-      <ion-modal :is-open="modalOpen" @did-dismiss="closeModal">
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Check Availability</ion-title>
-            <ion-buttons slot="end">
-              <ion-button color="primary" fill="clear" class="modal-close" @click="closeModal">
-                <BIconXCircleFill />
-              </ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
-
-        <ion-content class="modal-content">
-          <div class="modal-body">
-            <p class="modal-room-name">{{ selectedRoomName }}</p>
-
-            <div class="date-fields">
-              <div class="date-field">
-                <label>Check-in</label>
-                <ion-input
-                  type="date"
-                  :min="today"
-                  v-model="avStore.checkIn"
-                  fill="outline"
-                  label-placement="stacked"
-                />
-              </div>
-              <div class="date-field">
-                <label>Check-out</label>
-                <ion-input
-                  type="date"
-                  :min="avStore.checkIn || today"
-                  v-model="avStore.checkOut"
-                  fill="outline"
-                  label-placement="stacked"
-                />
-              </div>
-            </div>
-
-            <p v-if="dateError" class="field-error">{{ dateError }}</p>
-
-            <ion-button
-              expand="block"
-              color="primary"
-              :disabled="avStore.loading"
-              @click="submitAvailability"
-            >
-              <ion-spinner v-if="avStore.loading" name="crescent" slot="start" />
-              Check
-            </ion-button>
-
-            <!-- Result -->
-            <div v-if="avStore.result" class="result-box" :class="avStore.result.available ? 'available' : 'unavailable'">
-              <BIconCheckCircleFill v-if="avStore.result.available" class="result-icon" />
-              <BIconXCircleFill v-else class="result-icon" />
-              <p v-if="avStore.result.available">This room is available for your selected dates!</p>
-              <p v-else>Sorry, this room is not available for the selected dates.</p>
-            </div>
-
-            <div v-if="avStore.error" class="result-box unavailable">
-              <p>{{ avStore.error }}</p>
-            </div>
-          </div>
-        </ion-content>
-      </ion-modal>
+      <availability-modal
+        :is-open="modalOpen"
+        :selected-room-name="selectedRoomName"
+        :today="today"
+        v-model:check-in="avStore.checkIn"
+        v-model:check-out="avStore.checkOut"
+        :loading="avStore.loading"
+        :result="avStore.result"
+        :error="avStore.error"
+        :date-error="dateError"
+        @close="closeModal"
+        @check="submitAvailability"
+      />
 
       <site-footer />
     </ion-content>
@@ -153,16 +74,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import {
-  IonPage, IonContent, IonButton, IonButtons, IonModal, IonHeader, IonToolbar,
-  IonTitle, IonSpinner, IonInput, onIonViewWillEnter,
-} from '@ionic/vue';
-import { BIconCheckCircleFill, BIconXCircleFill } from 'bootstrap-icons-vue';
+import { IonPage, IonContent, IonButton, IonSpinner, onIonViewWillEnter } from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
 import RoomCard from '@/components/molecules/RoomCard.vue';
+import DateRangeFilter from '@/components/organisms/DateRangeFilter.vue';
+import AvailabilityModal from '@/components/organisms/AvailabilityModal.vue';
+import PaginationControls from '@/components/organisms/PaginationControls.vue';
 import { useRoomStore } from '@/stores/roomStore';
 import { useAvailabilityStore } from '@/stores/availabilityStore';
 
@@ -297,7 +217,6 @@ onIonViewWillEnter(async () => {
   margin-bottom: 28px;
 }
 
-
 .state-box {
   text-align: center;
   padding: 48px 0;
@@ -306,132 +225,6 @@ onIonViewWillEnter(async () => {
 
 .state-box.error {
   color: #c0392b;
-}
-
-.pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.page-info {
-  font-size: 0.875rem;
-  color: #555;
-  min-width: 90px;
-  text-align: center;
-}
-
-/* Filter bar */
-.filter-bar {
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 24px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.filter-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.filter-field label {
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 4px;
-}
-
-.filter-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.filter-error {
-  color: #c0392b;
-  font-size: 0.8rem;
-  margin: 0;
-}
-
-.filter-active {
-  font-size: 0.82rem;
-  color: #1a56db;
-  margin: 0;
-  font-weight: 500;
-}
-
-/* Modal */
-.modal-content {
-  --background: #ffffff;
-  --color: #111111;
-}
-
-.modal-body {
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.modal-room-name {
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: #0d0d1a;
-  margin: 0;
-}
-
-.date-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.date-field label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 4px;
-}
-
-.field-error {
-  color: #c0392b;
-  font-size: 0.8rem;
-  margin: 0;
-}
-
-.result-box {
-  border-radius: 8px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.result-box p {
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.result-box.available {
-  background: #e8f5e9;
-  color: #2e7d32;
-}
-
-.result-box.unavailable {
-  background: #fdecea;
-  color: #c0392b;
-}
-
-.result-icon {
-  font-size: 1.4rem;
-  flex-shrink: 0;
 }
 
 @media (min-width: 640px) {
@@ -444,29 +237,6 @@ onIonViewWillEnter(async () => {
     grid-column: 1 / -1;
     max-width: 50%;
     margin: 0 auto;
-  }
-
-  .filter-bar {
-    flex-direction: row;
-    align-items: flex-end;
-    flex-wrap: wrap;
-  }
-
-  .filter-fields {
-    flex-direction: row;
-    flex: 1;
-  }
-
-  .filter-field {
-    flex: 1;
-  }
-
-  .date-fields {
-    flex-direction: row;
-  }
-
-  .date-field {
-    flex: 1;
   }
 }
 </style>
