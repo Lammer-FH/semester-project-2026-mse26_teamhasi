@@ -37,17 +37,25 @@
         <h2>Location</h2>
         <img src="/images/hero.jpg" alt="Hotel location" class="section-image" />
         <p>
-          We are situated at Technikumstraße 1, just a short walk from the Handelskai
+          We are situated at Höchstädtplatz 1, just a short walk from the Handelskai
           U-Bahn station. The city centre, Prater, and Donauinsel are all within easy reach.
         </p>
         <div class="contact-grid">
           <span class="contact-label">ADDRESS</span>
-          <span class="contact-value">Technikumstraße 1, 1200 Wien</span>
+          <span class="contact-value">Höchstädtplatz 1, 1200 Wien</span>
           <span class="contact-label">TEL</span>
           <a href="tel:+4312345678" class="contact-value">+43 1 234 5678</a>
           <span class="contact-label">E-MAIL</span>
           <a href="mailto:kontakt@hotel-hasi.at" class="contact-value">kontakt@hotel-hasi.at</a>
         </div>
+      </section>
+      
+      <section class="content-section">
+        <location-map
+            title="Hotel Hasi location on OpenStreetMap"
+            embed-src="https://www.openstreetmap.org/export/embed.html?bbox=16.371%2C48.236%2C16.381%2C48.243&layer=mapnik&marker=48.239378%2C16.376495"
+            link-href="https://www.openstreetmap.org/?mlat=48.239378&mlon=16.376495#map=19/48.239378/16.376495"
+          />
       </section>
 
       <site-footer />
@@ -59,6 +67,7 @@
 import { IonPage, IonContent } from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
+import LocationMap from '@/components/organisms/LocationMap.vue';
 </script>
 
 <style scoped>

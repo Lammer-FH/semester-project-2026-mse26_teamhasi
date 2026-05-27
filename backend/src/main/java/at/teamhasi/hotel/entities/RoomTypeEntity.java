@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import jakarta.persistence.OrderBy;
 
 import java.util.List;
 
@@ -42,5 +43,9 @@ public class RoomTypeEntity {
             joinColumns = @JoinColumn(name = "room_type_id"),
             inverseJoinColumns = @JoinColumn(name = "media_id")
     )
+    @OrderBy("sortHelper ASC")
     private List<MediaEntity> media;
+
+    @OneToMany(mappedBy = "roomType", fetch = FetchType.LAZY)
+    private List<RoomEntity> rooms;
 }
