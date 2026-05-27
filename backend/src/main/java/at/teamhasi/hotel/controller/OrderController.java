@@ -6,6 +6,7 @@ import at.teamhasi.hotel.dto.RoomDto;
 import at.teamhasi.hotel.dto.UserDto;
 import at.teamhasi.hotel.entities.OrderEntity;
 import at.teamhasi.hotel.services.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrderResponseDto> getAllRooms(@RequestBody @Validated OrderDto orderDto) {
+    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody @Validated OrderDto orderDto) {
         OrderEntity order = orderService.createOrder(orderDto);
         return ResponseEntity.ok(createOrderResponseDto(order));
     }

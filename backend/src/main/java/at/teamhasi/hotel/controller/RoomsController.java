@@ -20,7 +20,7 @@ public class RoomsController {
     private final RoomService roomService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RoomsResponseDto> getAllRooms(
+    public ResponseEntity<RoomsResponseDto> getRooms(
             @RequestParam(defaultValue = "20") int limit,
             @RequestParam(defaultValue = "0") int offset,
             @RequestParam(required = false) LocalDate bookingStart,
