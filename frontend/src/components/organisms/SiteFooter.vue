@@ -13,7 +13,7 @@
         <a href="mailto:kontakt@hotel-hasi.at">Mail · kontakt@hotel-hasi.at</a>
       </div>
     </div>
-    <div class="footer-copy">© Hotel Hasi · Technikumstraße 1, 1200 Wien</div>
+    <div class="footer-copy">© Hotel Hasi · Höchstädtplatz 1, 1200 Wien</div>
   </footer>
 </template>
 

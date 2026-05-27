@@ -10,7 +10,7 @@
         <h2>Operator</h2>
         <p>
           Hotel Hasi GmbH<br>
-          Technikumstraße 1<br>
+          Höchstädtplatz 1<br>
           1200 Wien<br>
           Austria
         </p>

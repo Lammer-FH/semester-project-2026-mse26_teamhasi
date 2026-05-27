@@ -74,13 +74,17 @@
           <h2>Contact</h2>
           <div class="contact-grid">
             <span class="contact-label">ADDRESS</span>
-            <span class="contact-value">Technikumstraße 1, 1200 Wien</span>
+            <span class="contact-value">Höchstädtplatz 1, 1200 Wien</span>
             <span class="contact-label">TEL</span>
             <a href="tel:+4312345678" class="contact-value">+43 1 234 5678</a>
             <span class="contact-label">E-MAIL</span>
             <a href="mailto:kontakt@hotel-hasi.at" class="contact-value">kontakt@hotel-hasi.at</a>
           </div>
-          <div class="map-placeholder">Map</div>
+          <location-map
+            title="Hotel Hasi location on OpenStreetMap"
+            embed-src="https://www.openstreetmap.org/export/embed.html?bbox=16.371%2C48.236%2C16.381%2C48.243&layer=mapnik&marker=48.239378%2C16.376495"
+            link-href="https://www.openstreetmap.org/?mlat=48.239378&mlon=16.376495#map=19/48.239378/16.376495"
+          />
         </div>
       </section>
 
@@ -94,6 +98,7 @@ import { computed } from 'vue';
 import { IonPage, IonContent, IonButton, IonSpinner, onIonViewWillEnter } from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
+import LocationMap from '@/components/organisms/LocationMap.vue';
 import RoomMedia from '@/components/molecules/RoomMedia.vue';
 import RoomMetaRow from '@/components/molecules/RoomMetaRow.vue';
 import { useRoomStore } from '@/stores/roomStore';
@@ -109,7 +114,7 @@ const featuredRooms = computed(() => {
     if (!seen.has(cover)) {
       seen.add(cover);
       result.push(room);
-      if (result.length === 5) break;
+      if (result.length === 4) break;
     }
   }
   return result;
@@ -288,18 +293,6 @@ onIonViewWillEnter(() => store.fetchFeatured());
   text-decoration: none;
 }
 
-.map-placeholder {
-  width: 100%;
-  height: 180px;
-  background: #dde0e8;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-  font-size: 0.9rem;
-}
-
 /* Desktop */
 @media (min-width: 768px) {
   .hero {
@@ -319,13 +312,6 @@ onIonViewWillEnter(() => store.fetchFeatured());
 
   .rooms-grid {
     grid-template-columns: 1fr 1fr;
-  }
-
-  /* 5th card alone → centered in its own full-width row */
-  .rooms-grid > :nth-child(5):last-child {
-    grid-column: 1 / -1;
-    max-width: 50%;
-    margin: 0 auto;
   }
 }
 </style>
