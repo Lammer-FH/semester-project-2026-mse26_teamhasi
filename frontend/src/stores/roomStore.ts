@@ -8,11 +8,11 @@ export const useRoomStore = defineStore('rooms', () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  async function fetchRooms(offset = 0, checkIn?: string, checkOut?: string) {
+  async function fetchRooms(limit: number, offset = 0, checkIn?: string, checkOut?: string) {
     loading.value = true;
     error.value = null;
     try {
-      const res = await getRooms({ limit: 5, offset, check_in: checkIn, check_out: checkOut });
+      const res = await getRooms({ limit, offset, check_in: checkIn, check_out: checkOut });
       rooms.value = res.data.data;
       pagination.value = res.data.pagination;
     } catch {

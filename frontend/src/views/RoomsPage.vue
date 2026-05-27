@@ -90,7 +90,7 @@ const route = useRoute();
 const store = useRoomStore();
 const avStore = useAvailabilityStore();
 
-const LIMIT = 5;
+const limit = 6;
 const currentOffset = ref(0);
 const modalOpen = ref(false);
 const activeRoomId = ref<number | null>(null);
@@ -115,8 +115,8 @@ const selectedRoomName = computed(() => {
 
 const pageLabel = computed(() => {
   if (!store.pagination) return '';
-  const current = Math.floor(currentOffset.value / LIMIT) + 1;
-  const total = Math.ceil(store.pagination.total_count / LIMIT);
+  const current = Math.floor(currentOffset.value / limit) + 1;
+  const total = Math.ceil(store.pagination.total_count / limit);
   return `Page ${current} of ${total}`;
 });
 
@@ -129,11 +129,11 @@ const dateError = computed(() => {
 function load() {
   const ci = isFiltered.value ? filterCheckIn.value : undefined;
   const co = isFiltered.value ? filterCheckOut.value : undefined;
-  return store.fetchRooms(currentOffset.value, ci, co);
+  return store.fetchRooms(limit, currentOffset.value, ci, co);
 }
 
 function prev() {
-  currentOffset.value = Math.max(0, currentOffset.value - LIMIT);
+  currentOffset.value = Math.max(0, currentOffset.value - limit);
   load();
 }
 
