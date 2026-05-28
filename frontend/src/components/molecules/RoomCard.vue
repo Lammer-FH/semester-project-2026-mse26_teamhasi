@@ -5,16 +5,16 @@
     <div class="room-body">
       <room-meta-row :room="room" />
 
-      <p class="room-description">{{ room.description }}</p>
+      <p class="room-description">{{ room.roomType?.description }}</p>
 
-      <room-extras-chips :extras="room.extras" />
+      <room-extras-chips :extras="room.extras ?? []" />
 
       <div class="room-footer">
         <span class="room-capacity">
           <BIconPeople class="capacity-icon" />
-          {{ room.capacity }} guest{{ room.capacity !== 1 ? 's' : '' }}
+          {{ room.roomType?.capacity ?? 0 }} guest{{ (room.roomType?.capacity ?? 0) !== 1 ? 's' : '' }}
         </span>
-        <ion-button size="small" color="primary" @click="emit('check-availability', room.id)">
+        <ion-button size="small" color="primary" @click="emit('check-availability', room.id!)">
           Check Availability
         </ion-button>
       </div>
@@ -25,12 +25,12 @@
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
 import { BIconPeople } from 'bootstrap-icons-vue';
-import type { Room } from '@/api/roomApi';
+import type { RoomDto } from '@/generated/model';
 import RoomExtrasChips from '@/components/molecules/RoomExtrasChips.vue';
 import RoomMedia from '@/components/molecules/RoomMedia.vue';
 import RoomMetaRow from '@/components/molecules/RoomMetaRow.vue';
 
-const props = defineProps<{ room: Room }>();
+const props = defineProps<{ room: RoomDto }>();
 const emit = defineEmits<{ 'check-availability': [roomId: number] }>();
 
 const room = props.room;

@@ -1,24 +1,24 @@
 <template>
   <ion-page>
-    <site-header />
+    <site-header/>
 
     <ion-content :fullscreen="true" class="rooms-content">
       <div class="container">
         <h1 class="page-title">Our Rooms</h1>
 
         <date-range-filter
-          :today="today"
-          v-model:check-in="filterCheckIn"
-          v-model:check-out="filterCheckOut"
-          :is-filtered="isFiltered"
-          :error="filterError"
-          @search="search"
-          @clear="clearFilter"
+            :today="today"
+            v-model:check-in="filterCheckIn"
+            v-model:check-out="filterCheckOut"
+            :is-filtered="isFiltered"
+            :error="filterError"
+            @search="search"
+            @clear="clearFilter"
         />
 
         <!-- Loading -->
         <div v-if="store.loading" class="state-box">
-          <ion-spinner name="crescent" />
+          <ion-spinner name="crescent"/>
           <p>Loading rooms…</p>
         </div>
 
@@ -31,64 +31,67 @@
         <!-- Room grid -->
         <template v-else>
           <div v-if="store.rooms.length === 0" class="state-box">
-            <p>No rooms available for the selected dates. Try different dates or <a href="#" @click.prevent="clearFilter">clear the filter</a>.</p>
+            <p>No rooms available for the selected dates. Try different dates or <a href="#"
+                                                                                    @click.prevent="clearFilter">clear
+                                                                                                                 the
+                                                                                                                 filter</a>.
+            </p>
           </div>
 
           <div v-else class="rooms-grid">
             <room-card
-              v-for="room in store.rooms"
-              :key="room.id"
-              :room="room"
-              @check-availability="openAvailability"
+                v-for="room in store.rooms"
+                :key="room.id"
+                :room="room"
+                @check-availability="openAvailability"
             />
           </div>
 
           <pagination-controls
-            :visible="!!store.pagination"
-            :page-label="pageLabel"
-            :prev-disabled="currentOffset === 0"
-            :next-disabled="!store.pagination?.next_offset"
-            @prev="prev"
-            @next="next"
+              :visible="!!store.pagination"
+              :page-label="pageLabel"
+              :prev-disabled="currentOffset === 0"
+              :next-disabled="!store.pagination?.nextOffset"
+              @prev="prev"
+              @next="next"
           />
         </template>
       </div>
 
       <availability-modal
-        :is-open="modalOpen"
-        :selected-room-name="selectedRoomName"
-        :today="today"
-        v-model:check-in="avStore.checkIn"
-        v-model:check-out="avStore.checkOut"
-        :loading="avStore.loading"
-        :result="avStore.result"
-        :error="avStore.error"
-        :date-error="dateError"
-        @close="closeModal"
-        @check="submitAvailability"
+          :is-open="modalOpen"
+          :selected-room-name="selectedRoomName"
+          :today="today"
+          v-model:check-in="modalCheckIn"
+          v-model:check-out="modalCheckOut"
+          :loading="availabilityLoading"
+          :result="availabilityResult"
+          :error="availabilityError"
+          :date-error="dateError"
+          @close="closeModal"
+          @check="submitAvailability"
       />
 
-      <site-footer />
+      <site-footer/>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { IonPage, IonContent, IonButton, IonSpinner, onIonViewWillEnter } from '@ionic/vue';
+import {computed, ref} from 'vue';
+import {useRoute} from 'vue-router';
+import {IonButton, IonContent, IonPage, IonSpinner, onIonViewWillEnter} from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
 import RoomCard from '@/components/molecules/RoomCard.vue';
 import DateRangeFilter from '@/components/organisms/DateRangeFilter.vue';
 import AvailabilityModal from '@/components/organisms/AvailabilityModal.vue';
 import PaginationControls from '@/components/organisms/PaginationControls.vue';
-import { useRoomStore } from '@/stores/roomStore';
-import { useAvailabilityStore } from '@/stores/availabilityStore';
+import {useRoomStore} from '@/stores/roomStore';
+import {getRooms} from '@/api/roomsApi';
 
 const route = useRoute();
 const store = useRoomStore();
-const avStore = useAvailabilityStore();
 
 const limit = 6;
 const currentOffset = ref(0);
@@ -102,6 +105,13 @@ const filterCheckIn = ref('');
 const filterCheckOut = ref('');
 const isFiltered = ref(false);
 
+// Modal availability state
+const modalCheckIn = ref('');
+const modalCheckOut = ref('');
+const availabilityLoading = ref(false);
+const availabilityResult = ref<{ available: boolean } | null>(null);
+const availabilityError = ref<string | null>(null);
+
 const filterError = computed(() => {
   if (!filterCheckIn.value || !filterCheckOut.value) return '';
   if (filterCheckOut.value <= filterCheckIn.value) return 'Check-out must be after check-in.';
@@ -110,19 +120,19 @@ const filterError = computed(() => {
 
 const selectedRoomName = computed(() => {
   const id = activeRoomId.value;
-  return (store.rooms.find(r => r.id === id) ?? store.featured.find(r => r.id === id))?.name ?? '';
+  return (store.rooms.find(r => r.id === id) ?? store.featured.find(r => r.id === id))?.roomType?.name ?? '';
 });
 
 const pageLabel = computed(() => {
   if (!store.pagination) return '';
   const current = Math.floor(currentOffset.value / limit) + 1;
-  const total = Math.ceil(store.pagination.total_count / limit);
+  const total = Math.ceil((store.pagination.totalCount ?? 0) / limit);
   return `Page ${current} of ${total}`;
 });
 
 const dateError = computed(() => {
-  if (!avStore.checkIn || !avStore.checkOut) return '';
-  if (avStore.checkOut <= avStore.checkIn) return 'Check-out must be after check-in.';
+  if (!modalCheckIn.value || !modalCheckOut.value) return '';
+  if (modalCheckOut.value <= modalCheckIn.value) return 'Check-out must be after check-in.';
   return '';
 });
 
@@ -138,8 +148,8 @@ function prev() {
 }
 
 function next() {
-  if (!store.pagination?.next_offset) return;
-  currentOffset.value = store.pagination.next_offset;
+  if (!store.pagination?.nextOffset) return;
+  currentOffset.value = store.pagination.nextOffset;
   load();
 }
 
@@ -155,28 +165,39 @@ function clearFilter() {
   filterCheckOut.value = '';
   isFiltered.value = false;
   currentOffset.value = 0;
-  store.fetchRooms(0);
+  store.fetchRooms(limit, 0);
 }
 
 function openAvailability(roomId: number) {
   activeRoomId.value = roomId;
-  avStore.reset();
-  // Pre-fill modal dates from the filter bar so user doesn't re-enter them
-  if (filterCheckIn.value) avStore.checkIn = filterCheckIn.value;
-  if (filterCheckOut.value) avStore.checkOut = filterCheckOut.value;
+  availabilityResult.value = null;
+  availabilityError.value = null;
+  modalCheckIn.value = filterCheckIn.value;
+  modalCheckOut.value = filterCheckOut.value;
   modalOpen.value = true;
 }
 
 function closeModal() {
   modalOpen.value = false;
-  avStore.reset();
+  availabilityResult.value = null;
+  availabilityError.value = null;
 }
 
-function submitAvailability() {
-  if (!activeRoomId.value) return;
+async function submitAvailability() {
+  if (!activeRoomId.value || !modalCheckIn.value || !modalCheckOut.value) return;
   if (dateError.value) return;
-  if (!avStore.checkIn || !avStore.checkOut) return;
-  avStore.checkAvailability(activeRoomId.value);
+  availabilityLoading.value = true;
+  availabilityError.value = null;
+  availabilityResult.value = null;
+  try {
+    const res = await getRooms({ bookingStart: modalCheckIn.value, bookingEnd: modalCheckOut.value, limit: 100, offset: 0 });
+    const available = (res.data.data ?? []).some(r => r.id === activeRoomId.value);
+    availabilityResult.value = { available };
+  } catch {
+    availabilityError.value = 'Failed to check availability. Please try again.';
+  } finally {
+    availabilityLoading.value = false;
+  }
 }
 
 onIonViewWillEnter(async () => {

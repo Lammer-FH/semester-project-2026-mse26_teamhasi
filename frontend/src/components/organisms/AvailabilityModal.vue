@@ -74,7 +74,10 @@ import {
   IonToolbar,
 } from '@ionic/vue';
 import { BIconCheckCircleFill, BIconXCircleFill } from 'bootstrap-icons-vue';
-import type { RoomAvailability } from '@/api/roomApi';
+
+export interface RoomAvailability {
+  available: boolean;
+}
 
 const props = defineProps<{
   isOpen: boolean;

@@ -3,7 +3,7 @@
     <img
       v-if="coverMedia"
       :src="coverMedia.path"
-      :alt="coverMedia.alt_text || props.room.name"
+      :alt="coverMedia.altText || props.room.roomType?.name"
       class="room-media__image"
       loading="lazy"
     />
@@ -13,13 +13,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Room } from '@/api/roomApi';
+import type { RoomDto } from '@/generated/model';
 
-const props = withDefaults(defineProps<{ room: Room; hoverable?: boolean }>(), {
+const props = withDefaults(defineProps<{ room: RoomDto; hoverable?: boolean }>(), {
   hoverable: false,
 });
 
-const coverMedia = computed(() => props.room.media[0] ?? null);
+const coverMedia = computed(() => props.room.roomType?.media?.[0] ?? null);
 </script>
 
 <style scoped>
