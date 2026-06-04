@@ -28,4 +28,11 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Integer> {
     long countAvailable(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT COUNT(r) FROM RoomEntity r WHERE r.id = :roomId AND NOT EXISTS (" +
+            "SELECT o FROM OrderEntity o WHERE o.room = r AND o.bookingStart < :endDate AND o.bookingEnd > :startDate)")
+    long countAvailableById(
+            @Param("roomId") Integer roomId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 }

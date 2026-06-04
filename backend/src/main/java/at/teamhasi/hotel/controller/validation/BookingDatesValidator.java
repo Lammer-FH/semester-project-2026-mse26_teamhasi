@@ -1,15 +1,14 @@
 package at.teamhasi.hotel.controller.validation;
 
-import at.teamhasi.hotel.dto.OrderDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class BookingDatesValidator implements ConstraintValidator<ValidBookingDates, OrderDto> {
+public class BookingDatesValidator implements ConstraintValidator<ValidBookingDates, BookingDates> {
 
     @Override
-    public boolean isValid(OrderDto orderDto, ConstraintValidatorContext context) {
-        boolean hasStart = orderDto.getBookingStart() != null;
-        boolean hasEnd = orderDto.getBookingEnd() != null;
+    public boolean isValid(BookingDates dto, ConstraintValidatorContext context) {
+        boolean hasStart = dto.getBookingStart() != null;
+        boolean hasEnd = dto.getBookingEnd() != null;
 
         if (hasStart != hasEnd) {
             context.disableDefaultConstraintViolation();
@@ -20,6 +19,6 @@ public class BookingDatesValidator implements ConstraintValidator<ValidBookingDa
 
         if (!hasStart) return true;
 
-        return orderDto.getBookingEnd().isAfter(orderDto.getBookingStart());
+        return dto.getBookingEnd().isAfter(dto.getBookingStart());
     }
 }
