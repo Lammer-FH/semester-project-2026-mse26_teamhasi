@@ -2,6 +2,7 @@ package at.teamhasi.hotel.dto;
 
 import at.teamhasi.hotel.controller.validation.BookingDates;
 import at.teamhasi.hotel.controller.validation.ValidBookingDates;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,10 +13,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @ValidBookingDates
-public class OrderDto implements BookingDates {
-    private Integer roomId;
+public class RoomAvailableRequestDto implements BookingDates {
+    @NotNull
     private LocalDate bookingStart;
+    @NotNull
     private LocalDate bookingEnd;
-    private Boolean hasBreakfast;
-    private UserDto user;
 }
