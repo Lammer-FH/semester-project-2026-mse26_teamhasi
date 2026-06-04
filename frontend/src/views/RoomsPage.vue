@@ -88,7 +88,7 @@ import DateRangeFilter from '@/components/organisms/DateRangeFilter.vue';
 import AvailabilityModal from '@/components/organisms/AvailabilityModal.vue';
 import PaginationControls from '@/components/organisms/PaginationControls.vue';
 import {useRoomStore} from '@/stores/roomStore';
-import {getRooms} from '@/api/roomsApi';
+import {getRoomAvailable} from '@/api/roomsApi';
 
 const route = useRoute();
 const store = useRoomStore();
@@ -190,9 +190,11 @@ async function submitAvailability() {
   availabilityError.value = null;
   availabilityResult.value = null;
   try {
-    const res = await getRooms({ bookingStart: modalCheckIn.value, bookingEnd: modalCheckOut.value, limit: 100, offset: 0 });
-    const available = (res.data.data ?? []).some(r => r.id === activeRoomId.value);
-    availabilityResult.value = { available };
+    const res = await getRoomAvailable(activeRoomId.value, {
+      bookingStart: modalCheckIn.value,
+      bookingEnd: modalCheckOut.value,
+    });
+    availabilityResult.value = { available: res.data.available ?? false };
   } catch {
     availabilityError.value = 'Failed to check availability. Please try again.';
   } finally {

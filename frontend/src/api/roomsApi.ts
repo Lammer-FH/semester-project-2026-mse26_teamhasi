@@ -1,6 +1,6 @@
-import { getOpenAPIDefinition } from '@/generated/api';
-import { apiClient } from './client';
+import {getOpenAPIDefinition} from '@/generated/api';
+import {apiClient} from './client';
 
-const { getRooms, createOrder } = getOpenAPIDefinition(apiClient);
+const {getRooms, createOrder, getRoomAvailable} = getOpenAPIDefinition(apiClient);
 
-export { getRooms, createOrder };
+export {getRooms, createOrder, getRoomAvailable};
