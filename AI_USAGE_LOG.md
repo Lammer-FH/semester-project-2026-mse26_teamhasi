@@ -75,3 +75,12 @@ Entries:
 - Acceptance: Accepted
 - Files Changed: [frontend/src/views/HomePage.vue](frontend/src/views/HomePage.vue), [frontend/src/views/AboutPage.vue](frontend/src/views/AboutPage.vue), [frontend/src/views/ImprintPage.vue](frontend/src/views/ImprintPage.vue), [frontend/src/components/organisms/SiteFooter.vue](frontend/src/components/organisms/SiteFooter.vue)
 - Notes: The map uses an embedded OpenStreetMap view centered on Höchstädtplatz 1.
+
+- Date: 2026-06-06 00:00
+- Tool: Claude Code (claude-sonnet-4-6)
+- Prompt / Task: Review implementation of U4 booking flow (BookingPage, BookingForm, BookingReview, BookingConfirmation, bookingStore, router route, AvailabilityModal book button, RoomsPage navigation). Run a clean code review with --fix on all new/modified files.
+- Purpose: Implement user story U4 (hotel room booking) and review the resulting code for clean code issues.
+- Output Summary: Code review surfaced 2 confirmed issues: (1) duplicate nights calculation in BookingForm and BookingReview — fixed by extracting to src/utils/nightsBetween.ts; (2) room lookup after fetchFeatured() only searched featured array — fixed to also fall back to roomStore.rooms.
+- Acceptance: Accepted
+- Files Changed: [frontend/src/views/BookingPage.vue](frontend/src/views/BookingPage.vue), [frontend/src/components/organisms/BookingForm.vue](frontend/src/components/organisms/BookingForm.vue), [frontend/src/components/organisms/BookingReview.vue](frontend/src/components/organisms/BookingReview.vue), [frontend/src/utils/nightsBetween.ts](frontend/src/utils/nightsBetween.ts)
+- Notes: This entry logs Claudes AI code review for altered and new files.
