@@ -105,7 +105,9 @@ onIonViewWillEnter(async () => {
   roomLoading.value = true;
   await roomStore.fetchFeatured();
   roomLoading.value = false;
-  room.value = roomStore.featured.find(r => r.id === roomId.value) ?? null;
+  room.value = roomStore.featured.find(r => r.id === roomId.value)
+    ?? roomStore.rooms.find(r => r.id === roomId.value)
+    ?? null;
 });
 
 function onFormSubmit() {

@@ -93,15 +93,14 @@ import type {RoomDto} from '@/generated/model';
 import RoomMedia from '@/components/molecules/RoomMedia.vue';
 import RoomMetaRow from '@/components/molecules/RoomMetaRow.vue';
 import {useBookingStore} from '@/stores/bookingStore';
+import {nightsBetween} from '@/utils/nightsBetween';
 
 const props = defineProps<{ room: RoomDto; checkIn: string; checkOut: string }>();
 const emit = defineEmits<{ submit: [] }>();
 
 const store = useBookingStore();
 
-const nights = computed(() =>
-  Math.round((new Date(props.checkOut).getTime() - new Date(props.checkIn).getTime()) / 86400000)
-);
+const nights = computed(() => nightsBetween(props.checkIn, props.checkOut));
 
 const errors = reactive({ firstName: '', lastName: '', email: '', confirmEmail: '' });
 

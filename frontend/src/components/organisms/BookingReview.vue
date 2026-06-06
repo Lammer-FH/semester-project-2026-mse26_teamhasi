@@ -75,6 +75,7 @@ import RoomMedia from '@/components/molecules/RoomMedia.vue';
 import RoomMetaRow from '@/components/molecules/RoomMetaRow.vue';
 import RoomExtrasChips from '@/components/molecules/RoomExtrasChips.vue';
 import {useBookingStore} from '@/stores/bookingStore';
+import {nightsBetween} from '@/utils/nightsBetween';
 
 const props = defineProps<{
   room: RoomDto;
@@ -89,9 +90,7 @@ defineEmits<{ confirm: []; back: [] }>();
 
 const store = useBookingStore();
 
-const nights = computed(() =>
-  Math.round((new Date(props.checkOut).getTime() - new Date(props.checkIn).getTime()) / 86400000)
-);
+const nights = computed(() => nightsBetween(props.checkIn, props.checkOut));
 </script>
 
 <style scoped>
