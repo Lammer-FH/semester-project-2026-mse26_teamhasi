@@ -70,6 +70,7 @@
           :date-error="dateError"
           @close="closeModal"
           @check="submitAvailability"
+          @book="navigateToBooking"
       />
 
       <site-footer/>
@@ -79,7 +80,7 @@
 
 <script setup lang="ts">
 import {computed, ref} from 'vue';
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import {IonButton, IonContent, IonPage, IonSpinner, onIonViewWillEnter} from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
 import SiteFooter from '@/components/organisms/SiteFooter.vue';
@@ -91,6 +92,7 @@ import {useRoomStore} from '@/stores/roomStore';
 import {getRoomAvailable} from '@/api/roomsApi';
 
 const route = useRoute();
+const router = useRouter();
 const store = useRoomStore();
 
 const limit = 6;
@@ -181,6 +183,18 @@ function closeModal() {
   modalOpen.value = false;
   availabilityResult.value = null;
   availabilityError.value = null;
+}
+
+function navigateToBooking() {
+  if (!activeRoomId.value || !modalCheckIn.value || !modalCheckOut.value) return;
+  const roomId = String(activeRoomId.value);
+  const checkIn = modalCheckIn.value;
+  const checkOut = modalCheckOut.value;
+  closeModal();
+  // Wait for Ionic's modal dismiss animation before navigating
+  setTimeout(() => {
+    router.push({ path: '/booking', query: { roomId, checkIn, checkOut } });
+  }, 350);
 }
 
 async function submitAvailability() {
