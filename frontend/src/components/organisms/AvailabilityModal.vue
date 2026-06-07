@@ -52,6 +52,15 @@
           <p v-else>Sorry, this room is not available for the selected dates.</p>
         </div>
 
+        <ion-button
+          v-if="result?.available"
+          expand="block"
+          color="primary"
+          @click="$emit('book')"
+        >
+          Book this room
+        </ion-button>
+
         <div v-if="error" class="result-box unavailable">
           <p>{{ error }}</p>
         </div>
@@ -96,6 +105,7 @@ const emit = defineEmits<{
   'update:checkIn': [value: string];
   'update:checkOut': [value: string];
   check: [];
+  book: [];
 }>();
 
 const checkInValue = computed({

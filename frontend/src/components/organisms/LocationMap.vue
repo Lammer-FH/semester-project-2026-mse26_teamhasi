@@ -5,6 +5,13 @@
       :title="title"
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
+      class="map-iframe"
+    />
+    <img
+      v-if="printSrc"
+      :src="printSrc"
+      :alt="title"
+      class="map-print"
     />
     <a class="location-map__link" :href="linkHref" target="_blank" rel="noreferrer">
       {{ linkLabel }}
@@ -19,9 +26,11 @@ withDefaults(
     linkHref: string;
     title: string;
     linkLabel?: string;
+    printSrc?: string;
   }>(),
   {
     linkLabel: 'Open in OpenStreetMap',
+    printSrc: undefined,
   },
 );
 </script>
@@ -43,6 +52,10 @@ withDefaults(
   display: block;
 }
 
+.map-print {
+  display: none;
+}
+
 .location-map__link {
   position: absolute;
   left: 12px;
@@ -55,5 +68,9 @@ withDefaults(
   padding: 6px 10px;
   border-radius: 999px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+@media print {
+  .location-map { display: none; }
 }
 </style>

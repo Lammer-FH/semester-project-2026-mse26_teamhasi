@@ -75,3 +75,21 @@ Entries:
 - Acceptance: Accepted
 - Files Changed: [frontend/src/views/HomePage.vue](frontend/src/views/HomePage.vue), [frontend/src/views/AboutPage.vue](frontend/src/views/AboutPage.vue), [frontend/src/views/ImprintPage.vue](frontend/src/views/ImprintPage.vue), [frontend/src/components/organisms/SiteFooter.vue](frontend/src/components/organisms/SiteFooter.vue)
 - Notes: The map uses an embedded OpenStreetMap view centered on Höchstädtplatz 1.
+
+- Date: 2026-06-06 00:00
+- Tool: Claude Code (claude-sonnet-4-6)
+- Prompt / Task: Review implementation of U4 booking flow (BookingPage, BookingForm, BookingReview, BookingConfirmation, bookingStore, router route, AvailabilityModal book button, RoomsPage navigation). Run a clean code review with --fix on all new/modified files.
+- Purpose: Implement user story U4 (hotel room booking) and review the resulting code for clean code issues.
+- Output Summary: Code review surfaced 2 confirmed issues: (1) duplicate nights calculation in BookingForm and BookingReview — fixed by extracting to src/utils/nightsBetween.ts; (2) room lookup after fetchFeatured() only searched featured array — fixed to also fall back to roomStore.rooms.
+- Acceptance: Accepted
+- Files Changed: [frontend/src/views/BookingPage.vue](frontend/src/views/BookingPage.vue), [frontend/src/components/organisms/BookingForm.vue](frontend/src/components/organisms/BookingForm.vue), [frontend/src/components/organisms/BookingReview.vue](frontend/src/components/organisms/BookingReview.vue), [frontend/src/utils/nightsBetween.ts](frontend/src/utils/nightsBetween.ts)
+- Notes: This entry logs Claudes AI code review for altered and new files.
+
+- Date: 2026-06-07 00:00
+- Tool: Claude Code (claude-sonnet-4-6)
+- Prompt / Task: Implement U5 — extend BookingConfirmation.vue with hotel directions (LocationMap), contact info (address, phone, email), Print Confirmation button, and print-friendly A4 layout via @media print.
+- Purpose: Complete user story U5 (rich booking confirmation).
+- Output Summary: Extended BookingConfirmation.vue with a Directions & Contact card (reusing existing LocationMap.vue component and consistent hotel contact data), a two-button actions row (Print + Back to Rooms), and @media print CSS. Added global @page A4 + header/footer hide rules to BookingPage.vue.
+- Acceptance: Accepted
+- Files Changed: [frontend/src/components/organisms/BookingConfirmation.vue](frontend/src/components/organisms/BookingConfirmation.vue), [frontend/src/views/BookingPage.vue](frontend/src/views/BookingPage.vue)
+- Notes: No new API endpoint needed. LocationMap.vue already existed with the correct OSM embed URLs.

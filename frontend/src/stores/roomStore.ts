@@ -42,8 +42,20 @@ export const useRoomStore = defineStore('rooms', () => {
 		}
 	}
 
+	async function fetchRoomById(id: number): Promise<RoomDto | null> {
+		const cached = featured.value.find(r => r.id === id)
+			?? rooms.value.find(r => r.id === id);
+		if (cached) return cached;
+		try {
+			const res = await getRooms({ limit: 200, offset: 0 });
+			return res.data.data?.find(r => r.id === id) ?? null;
+		} catch {
+			return null;
+		}
+	}
+
 	return {
 		rooms, pagination, loading, error, fetchRooms,
-		featured, featuredLoading, featuredError, fetchFeatured,
+		featured, featuredLoading, featuredError, fetchFeatured, fetchRoomById,
 	};
 });
