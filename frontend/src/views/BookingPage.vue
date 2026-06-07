@@ -42,7 +42,7 @@
             :error="bookingStore.submitError"
             :error-code="bookingStore.submitErrorCode"
             @confirm="onConfirm"
-            @back="currentStep = 1"
+            @back="onBack"
           />
 
           <booking-confirmation
@@ -94,21 +94,15 @@ onIonViewWillEnter(async () => {
 
   if (!roomId.value) return;
 
-  const cached = roomStore.featured.find(r => r.id === roomId.value)
-    ?? roomStore.rooms.find(r => r.id === roomId.value);
-
-  if (cached) {
-    room.value = cached;
-    return;
-  }
-
   roomLoading.value = true;
-  await roomStore.fetchFeatured();
+  room.value = await roomStore.fetchRoomById(roomId.value);
   roomLoading.value = false;
-  room.value = roomStore.featured.find(r => r.id === roomId.value)
-    ?? roomStore.rooms.find(r => r.id === roomId.value)
-    ?? null;
 });
+
+function onBack() {
+  bookingStore.clearSubmitError();
+  currentStep.value = 1;
+}
 
 function onFormSubmit() {
   currentStep.value = 2;

@@ -87,7 +87,7 @@
     </div>
 
     <div class="actions no-print">
-      <ion-button fill="solid" class="btn-print" @click="window.print()">
+      <ion-button fill="solid" class="btn-print" @click="printConfirmation()">
         Print Confirmation
       </ion-button>
       <ion-button expand="block" color="primary" @click="$emit('done')">
@@ -106,7 +106,11 @@ import LocationMap from '@/components/organisms/LocationMap.vue';
 defineProps<{ order: OrderResponseDto }>();
 defineEmits<{ done: [] }>();
 
-const window = globalThis.window;
+function printConfirmation() {
+  if (typeof globalThis.window?.print === 'function') {
+    globalThis.window.print();
+  }
+}
 </script>
 
 <style scoped>
