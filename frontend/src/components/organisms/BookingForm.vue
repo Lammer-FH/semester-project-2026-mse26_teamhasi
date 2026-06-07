@@ -222,4 +222,9 @@ function handleSubmit() {
   justify-content: space-between;
   padding: 4px 0;
 }
+
+ion-input {
+  --color: #111111;
+  --placeholder-color: #888888;
+}
 </style>

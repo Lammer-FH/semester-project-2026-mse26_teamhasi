@@ -126,6 +126,11 @@ async function onConfirm() {
   --background: #f5f5f8;
   --color: #111111;
 }
+
+@media print {
+  @page { size: A4; margin: 2cm; }
+  ion-header, .site-footer { display: none !important; }
+}
 </style>
 
 <style scoped>

@@ -198,7 +198,11 @@ function navigateToBooking() {
 }
 
 async function submitAvailability() {
-  if (!activeRoomId.value || !modalCheckIn.value || !modalCheckOut.value) return;
+  if (!activeRoomId.value) return;
+  if (!modalCheckIn.value || !modalCheckOut.value) {
+    availabilityError.value = 'Please select both check-in and check-out dates.';
+    return;
+  }
   if (dateError.value) return;
   availabilityLoading.value = true;
   availabilityError.value = null;

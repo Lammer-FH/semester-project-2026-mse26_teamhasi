@@ -84,3 +84,12 @@ Entries:
 - Acceptance: Accepted
 - Files Changed: [frontend/src/views/BookingPage.vue](frontend/src/views/BookingPage.vue), [frontend/src/components/organisms/BookingForm.vue](frontend/src/components/organisms/BookingForm.vue), [frontend/src/components/organisms/BookingReview.vue](frontend/src/components/organisms/BookingReview.vue), [frontend/src/utils/nightsBetween.ts](frontend/src/utils/nightsBetween.ts)
 - Notes: This entry logs Claudes AI code review for altered and new files.
+
+- Date: 2026-06-07 00:00
+- Tool: Claude Code (claude-sonnet-4-6)
+- Prompt / Task: Implement U5 — extend BookingConfirmation.vue with hotel directions (LocationMap), contact info (address, phone, email), Print Confirmation button, and print-friendly A4 layout via @media print.
+- Purpose: Complete user story U5 (rich booking confirmation).
+- Output Summary: Extended BookingConfirmation.vue with a Directions & Contact card (reusing existing LocationMap.vue component and consistent hotel contact data), a two-button actions row (Print + Back to Rooms), and @media print CSS. Added global @page A4 + header/footer hide rules to BookingPage.vue.
+- Acceptance: Accepted
+- Files Changed: [frontend/src/components/organisms/BookingConfirmation.vue](frontend/src/components/organisms/BookingConfirmation.vue), [frontend/src/views/BookingPage.vue](frontend/src/views/BookingPage.vue)
+- Notes: No new API endpoint needed. LocationMap.vue already existed with the correct OSM embed URLs.

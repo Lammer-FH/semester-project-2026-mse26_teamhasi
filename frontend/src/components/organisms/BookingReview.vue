@@ -56,7 +56,7 @@
     </div>
 
     <div class="actions">
-      <ion-button fill="outline" color="primary" :disabled="submitting" @click="$emit('back')">
+      <ion-button fill="outline" class="btn-back" :disabled="submitting" @click="$emit('back')">
         Back
       </ion-button>
       <ion-button color="primary" expand="block" :disabled="submitting" @click="$emit('confirm')">
@@ -169,4 +169,9 @@ const nights = computed(() => nightsBetween(props.checkIn, props.checkOut));
 
 .actions ion-button:first-child { flex-shrink: 0; }
 .actions ion-button:last-child { flex: 1; }
+
+.btn-back {
+  --color: #333333;
+  --border-color: #333333;
+}
 </style>
