@@ -15,6 +15,11 @@ export const useBookingStore = defineStore('booking', () => {
 	const submitErrorCode = ref<string | null>(null);
 	const confirmedOrder = ref<OrderResponseDto | null>(null);
 
+	function clearSubmitError() {
+		submitError.value = null;
+		submitErrorCode.value = null;
+	}
+
 	function resetForm() {
 		firstName.value = '';
 		lastName.value = '';
@@ -46,7 +51,7 @@ export const useBookingStore = defineStore('booking', () => {
 					email: email.value,
 				},
 			});
-			confirmedOrder.value = res.data;
+			confirmedOrder.value = res.data ?? null;
 			return true;
 		} catch (err: any) {
 			const code = err.response?.data?.code ?? null;
@@ -71,6 +76,6 @@ export const useBookingStore = defineStore('booking', () => {
 	return {
 		firstName, lastName, email, confirmEmail, hasBreakfast,
 		submitting, submitError, submitErrorCode, confirmedOrder,
-		resetForm, submitBooking,
+		clearSubmitError, resetForm, submitBooking,
 	};
 });
