@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {IonButton, IonContent, IonPage, IonSpinner, onIonViewWillEnter} from '@ionic/vue';
 import SiteHeader from '@/components/organisms/SiteHeader.vue';
@@ -138,6 +138,10 @@ const dateError = computed(() => {
   return '';
 });
 
+watch([modalCheckIn, modalCheckOut], () => {
+  availabilityResult.value = null;
+});
+
 function load() {
   const ci = isFiltered.value ? filterCheckIn.value : undefined;
   const co = isFiltered.value ? filterCheckOut.value : undefined;
@@ -187,6 +191,7 @@ function closeModal() {
 
 function navigateToBooking() {
   if (!activeRoomId.value || !modalCheckIn.value || !modalCheckOut.value) return;
+  if (dateError.value) return;
   const roomId = String(activeRoomId.value);
   const checkIn = modalCheckIn.value;
   const checkOut = modalCheckOut.value;
